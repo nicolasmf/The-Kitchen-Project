@@ -23,9 +23,9 @@ can.create_text(width/2, height*0.05, text = "The Kitchen Project", fill = "blac
 
 # Search Bar 
 
-searchBar = Entry(window, width = 20, justify = CENTER)
+searchBar = Entry(window, width = 70, justify = CENTER)
 searchBar.pack()
-searchBar.place(relx = 0.5, rely = 0.5, anchor = CENTER)
+searchBar.place(relx = 0.5, rely = 0.5, anchor = CENTER, height = 50)
 searchBar.focus()
 
 searchIcon = PhotoImage(file = r"img/magnifier_icon.png").subsample(20, 20)
@@ -36,7 +36,7 @@ def SBDelete(*args): # *args to fix window.bind('<Return>', SBDelete) (Will rais
 
 buttonSearch = Button(window, image = searchIcon, background = "white", borderwidth = 0, highlightthickness = 0, command = SBDelete)
 buttonSearch.pack()
-buttonSearch.place(x = 585, y = 337)
+buttonSearch.place(x = 750, y = 337)
 window.bind('<Return>', SBDelete) # Binding return key to SBDelete function
 
 # Mainloop
