@@ -1,9 +1,12 @@
 ##=============================================== M A I N =============================================================
 #Import
-from tkinter import *
+import tkinter as Tk
+#other files
+exec(open("./functions.py").read())
+exec(open("./classes.py").read())
 
 #Cretion of the window and the canvas
-window =Tk()
+window =Tk.Tk()
 
 #Dimension
 width = 1000
@@ -15,11 +18,14 @@ window.geometry(dimension)
 window.title("The_Kitchen_Project")
 
 #Canvas
-can=Canvas(window,bg="white",width=1000,height=700)
+can=Tk.Canvas(window,bg="white",width=width,height=height)
 can.place(x=0,y=0)
 
 #Placing the title
-can.create_text(width/2, height*0.05, text="The Kitchen Project", fill="black", font=("Calibri",30))
+mainmenu(width, height)
+
+#To activate binding
+#can.bind("<Button-1>",clic)
 
 #Mainloop
 window.mainloop()
