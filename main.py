@@ -13,6 +13,7 @@ width = 1000
 height = 700
 dimension = str(width) +"x"+ str(height)
 window.geometry(dimension)
+window.resizable(width = False, height = False)
 
 # Title
 window.title("The_Kitchen_Project")
@@ -30,7 +31,7 @@ can.place(x = 0, y = 0)
     # img
 searchIcon = tk.PhotoImage(file = r"img/magnifier_icon.png").subsample(20, 20)
     # Search bar
-searchBar = tk.Entry(window, width = 70, justify = "center")
+searchBar = tk.Entry(window, width = int(width*0.5/8-1), justify = "center")
     # Button
 buttonSearch = tk.Button(window, image = searchIcon, background = "white", borderwidth = 0, highlightthickness = 0, command = SBDelete)
 
