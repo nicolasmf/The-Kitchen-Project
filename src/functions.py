@@ -44,6 +44,8 @@ def mainmenu(width, height):
         # Search bar
     searchBar.pack()
     searchBar.place(x = width*0.25, y = height*0.13 , height = 40, width = height*0.7)
+    searchBar.insert(0, "Type something here...")
+    searchBar.bind("<FocusIn>", func=lambda e: searchBar.delete('0', "end")) 
     # \|/ Focus pas obligatoire à l'arrivé du mainmenu
     #searchBar.focus() 
         # Image

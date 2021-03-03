@@ -19,7 +19,7 @@ window.title("The_Kitchen_Project")
 
 # Canvas
 can = tk.Canvas(window, bg = "white", width = width, height = height)
-can.place(x = 0,y = 0)
+can.place(x = 0, y = 0)
 
 # To activate binding
 #can.bind("<Button-1>",clic)
