@@ -16,7 +16,6 @@ def function():
     (...)
 """
 ##import
-import main as m
 import tkinter as tk
 
 ## ======================================================  M a i n m e n u  ======================================================
@@ -25,24 +24,25 @@ def mainmenu(width, height):
     """
     # Variables
         # Global
-    global searchBar, buttonSearch, searchIcon
+    global can, searchBar, buttonSearch, searchIcon
     # Core
         #up border
-    m.can.create_rectangle(0,0,width-2,height*0.15, fill='orange',outline='white')
+    can.create_rectangle(0,0,width-2,height*0.20, fill='orange',outline='white')
         #title
-    m.can.create_text(width*0.5, height*0.075, text="The Kitchen Project", fill="black", font=("Calibri light",30))
+    can.create_text(width*0.5, height*0.05, text="The Kitchen Project", fill="black", font=("Calibri light",30))
         #menu
     #m.can.create_text(width*0.25, height*0.7, text="Search a Recipe", fill="black", font=("Calibri",20), anchor="n",justify="center")
     #m.can.create_text(width/2, height*0.4, text="Create a schedule\n(complete meal)", fill="black", font=("Calibri",20), anchor="n",justify="center")
     #m.can.create_text(width*0.75, height*0.7, text="New Ideas\nExplore", fill="black", font=("Calibri",20), anchor="n",justify="center")
         # search bar
     searchBar.pack()
-    searchBar.place(x = width*0.25, y = height*0.15 , height = 40, width= height*0.7)
-    searchBar.focus()
+    searchBar.place(x = width*0.25, y = height*0.13 , height = 40, width= height*0.7)
+    #\|/ Focus pas obligatoire à l'arrivé du mainmenu
+    #searchBar.focus() 
         # image
     buttonSearch.pack()
-    buttonSearch.place(x = width*0.75, y = height*0.15+5)
-    m.window.bind('<Return>', SBDelete) # Binding return key to SBDelete function
+    buttonSearch.place(x = width*0.75, y = height*0.13)
+    window.bind('<Return>', SBDelete) # Binding return key to SBDelete function
 
 def deleteCanvas():
     """Function that deletes all the elements of the Canvas
