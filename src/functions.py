@@ -20,9 +20,10 @@ import tkinter as tk
 
 # Fix warning "global variable is not defined in the global scope"
 can = None
-searchBar = None
-buttonSearch = None
-searchIcon = None
+search_bar = None
+button_search = None
+search_icon = None
+favorite_star = None
 window = None
 
 ## ======================================================  M a i n m e n u  ======================================================
@@ -31,26 +32,37 @@ def mainmenu(width, height):
     """
     # Variables
         # Global
-    global can, searchBar, buttonSearch, searchIcon, window
+    global can, search_bar, button_search, search_icon, window, favorite_star
     # Core
+        
         # Up border
     can.create_rectangle(0, 0, width-2, height*0.20, fill = 'orange', outline = 'white')
+        
         # Title
     can.create_text(width*0.5, height*0.05, text = "The Kitchen Project", fill = "black", font = ("Calibri light",30))
+        
         # Menu
     #m.can.create_text(width*0.25, height*0.7, text="Search a Recipe", fill="black", font=("Calibri",20), anchor="n",justify="center")
     #m.can.create_text(width/2, height*0.4, text="Create a schedule\n(complete meal)", fill="black", font=("Calibri",20), anchor="n",justify="center")
     #m.can.create_text(width*0.75, height*0.7, text="New Ideas\nExplore", fill="black", font=("Calibri",20), anchor="n",justify="center")
+
+        # Favorites
+    buttonFavorite = tk.Button(window, image = favorite_star, background = "orange", borderwidth = 0, highlightthickness = 0, command = favoriteWindow)
+    buttonFavorite.pack()
+    buttonFavorite.place(x = width*0.83, y = height*0.14)
+    can.create_text(width*0.93, height*0.16, text = "Favorites", fill = "black", font = ("Calibri light",15))
+        
         # Search bar
-    searchBar.pack()
-    searchBar.place(x = width*0.25, y = height*0.13 , height = 40, width = height*0.7)
-    searchBar.insert(0, "Type something here...")
-    searchBar.bind("<FocusIn>", func=lambda e: searchBar.delete('0', "end")) 
+    search_bar.pack()
+    search_bar.place(x = width*0.25, y = height*0.13 , height = 40, width = height*0.7)
+    search_bar.insert(0, "Type something here...")
+    search_bar.bind("<FocusIn>", func = lambda e: search_bar.delete('0', "end")) 
     # \|/ Focus pas obligatoire à l'arrivé du mainmenu
-    #searchBar.focus() 
+    #search_bar.focus() 
+    
         # Image
-    buttonSearch.pack()
-    buttonSearch.place(x = width*0.71, y = height*0.14)
+    button_search.pack()
+    button_search.place(x = width*0.71, y = height*0.14)
     window.bind('<Return>', SBDelete) # Binding return key to SBDelete function
 
 def deleteCanvas():
@@ -61,8 +73,13 @@ def deleteCanvas():
 
 # Search bar main menu
 def SBDelete(*args): # *args to fix window.bind('<Return>', SBDelete) (Will raise an error otherwise) 
-        searchBar.delete(0, "end")
+        search_bar.delete(0, "end")
         return None
+
+def favoriteWindow(): 
+    newWindow = tk.Toplevel(window)  
+    newWindow.title("Favorites")  
+    newWindow.geometry("1000x700")  
 
 ## ======================================================  C a t e g o r i e s  ======================================================
 #

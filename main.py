@@ -25,20 +25,21 @@ can.place(x = 0, y = 0)
 # To activate binding
 #can.bind("<Button-1>",clic)
 
-## ========================================================= V A R I A B L E S  &  D E C L A RA T I O N  ============================================= 
+## ========================================================= V A R I A B L E S  &  D E C L A R A T I O N  ============================================= 
 
 # Global variables to be define
     # img
-searchIcon = tk.PhotoImage(file = r"img/magnifier_icon.png").subsample(20, 20)
+search_icon = tk.PhotoImage(file = r"img/magnifier_icon.png").subsample(20, 20)
+favorite_star = tk.PhotoImage(file = r"img/star.png").subsample(20, 20)
     # Search bar
-searchBar = tk.Entry(window, width = int(width*0.5/8-1), justify = "center")
+search_bar = tk.Entry(window, width = int(width*0.5/8-1), justify = "center")
     # Button
-buttonSearch = tk.Button(window, image = searchIcon, background = "white", borderwidth = 0, highlightthickness = 0, command = SBDelete)
+button_search = tk.Button(window, image = search_icon, background = "white", borderwidth = 0, highlightthickness = 0, command = SBDelete)
 
 ## =======================================================
 #
 # Launch first function (mainmenu)
-mainmenu(width, height)
+mainmenu(width, height) # TODO: put the FULL creation of the main menu in the function (To use it when we want to open the main menu again)
 #
 # Mainloop
 window.mainloop()
