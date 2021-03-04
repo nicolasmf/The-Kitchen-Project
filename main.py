@@ -31,7 +31,8 @@ lang = language("")
 
 # Global variables to be define
     # img
-searchIcon = tk.PhotoImage(file = r"img/magnifier_icon.png").subsample(20, 20)
+search_icon = tk.PhotoImage(file = r"img/magnifier_icon.png").subsample(20, 20)
+favorite_star = tk.PhotoImage(file = r"img/star.png").subsample(20, 20)
     # Search bar
 searchBar = tk.Entry(window, width = int((width*0.5/8)-1), justify = "center")
     # Buttons
@@ -45,7 +46,7 @@ button_profile = tk.Button(window, text = "My profile", font = ("Calibri",10), b
 ## =======================================================
 #
 # Launch first function (mainmenu)
-mainmenu(width, height)
+mainmenu(width, height) # TODO: put the FULL creation of the main menu in the function (To use it when we want to open the main menu again)
 #
 # Mainloop
 window.mainloop()
