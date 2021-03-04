@@ -133,13 +133,13 @@ class Language():
         self.language = lang
         # French
         if lang == "FR":
-            self.searchbartxt = "Taper votre recherche ici"
+            self.searchbartxt = "Taper votre recherche ici..."
             self.profile = "Mon profil"
             self.title = "Le Projet Couisine"
             self.fav = "Favoris"
         # English (by default)
         else:
-            self.searchbartxt = "Type something here"
+            self.searchbartxt = "Type something here..."
             self.profile = "My profile"
             self.title = "The Kitchen Project"
             self.fav = "Favorites"
