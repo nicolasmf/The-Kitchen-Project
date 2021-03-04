@@ -89,11 +89,3 @@ class MainMenu:
 
     def searchBarDelete(self):
         self.search_bar.delete('0', "end")
-
-
-def main():
-    root = tk.Tk()
-    main = MainMenu(root, 1000, 700)
-
-
-main()
