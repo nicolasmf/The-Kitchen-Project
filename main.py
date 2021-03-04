@@ -25,16 +25,23 @@ can.place(x = 0, y = 0)
 # To activate binding
 #can.bind("<Button-1>",clic)
 
-## ========================================================= V A R I A B L E S  &  D E C L A RA T I O N  ============================================= 
+## Language by defaukt (EN)
+lang = language("")
+## ========================================================= V A R I A B L E S  &  D E C L A R A T I O N  ============================================= 
 
 # Global variables to be define
     # img
 searchIcon = tk.PhotoImage(file = r"img/magnifier_icon.png").subsample(20, 20)
     # Search bar
-searchBar = tk.Entry(window, width = int(width*0.5/8-1), justify = "center")
-    # Button
-buttonSearch = tk.Button(window, image = searchIcon, background = "white", borderwidth = 0, highlightthickness = 0, command = SBDelete)
-
+searchBar = tk.Entry(window, width = int((width*0.5/8)-1), justify = "center")
+    # Buttons
+        # Search
+buttonSearch = tk.Button(window, image = searchIcon, background = "white", borderwidth = 0, highlightthickness = 0, command = sb_delete)
+        # Language
+buttonlanguage_en = tk.Button(window, text = "EN", font = ("Calibri",10), background = "white", borderwidth = 0, highlightthickness = 0, command = language_en)
+buttonlanguage_fr = tk.Button(window, text = "FR", font = ("Calibri",10), background = "white", borderwidth = 0, highlightthickness = 0, command = language_fr)
+        # Profile
+button_profile = tk.Button(window, text = "My profile", font = ("Calibri",10), background = "white", borderwidth = 0, highlightthickness = 0, command = profile)
 ## =======================================================
 #
 # Launch first function (mainmenu)
