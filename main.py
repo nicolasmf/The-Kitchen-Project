@@ -13,13 +13,13 @@ width = 1000
 height = 700
 dimension = str(width) +"x"+ str(height)
 window.geometry(dimension)
-window.resizable(width = False, height = False)
+window.resizable(width = False, height = False)                         # * Done
 
 # Title
-window.title("The_Kitchen_Project")
+window.title("The_Kitchen_Project")                                     # * Done
 
 # Canvas
-can = tk.Canvas(window, bg = "white", width = width, height = height)
+can = tk.Canvas(window, bg = "white", width = width, height = height) # * Done
 can.place(x = 0, y = 0)
 
 # To activate binding
