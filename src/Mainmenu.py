@@ -50,7 +50,7 @@ class MainMenu:
                               height=40, width=height*0.7)
         self.search_bar.insert(0, "Type something here...")
         self.search_bar.bind(
-            "<FocusIn>", self.searchBarDelete())
+            "<FocusIn>", func=lambda e: self.search_bar.delete('0', "end"))
 
         self.button_search.pack()
         self.button_search.place(x=width*0.71, y=height*0.14)
