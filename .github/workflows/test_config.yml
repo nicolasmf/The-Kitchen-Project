@@ -29,6 +29,6 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install python3-tk
-      - name: Test of functions.py
+      - name: Test of classes.py
         run: |
-          python3 src/functions.py
+          python3 src/classes.py
