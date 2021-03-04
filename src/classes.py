@@ -3,6 +3,7 @@
 File that contains all the classes of The_Kitchen_Project.
 
 """
+
 import tkinter as tk
 
 
