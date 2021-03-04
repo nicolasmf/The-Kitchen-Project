@@ -119,7 +119,7 @@ def reload_mm():
     """
     delete_canva()
     forget_buttons()
-    mainmenu(width, height)
+    #mainmenu(width, height)
 
 def forget_buttons():
     """Functions that erase all the buttons of the canvas

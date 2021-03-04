@@ -37,7 +37,7 @@ favorite_star = tk.PhotoImage(file = r"img/star.png").subsample(20, 20)
 searchBar = tk.Entry(window, width = int((width*0.5/8)-1), justify = "center")
     # Buttons
         # Search
-buttonSearch = tk.Button(window, image = searchIcon, background = "white", borderwidth = 0, highlightthickness = 0, command = sb_delete)
+buttonSearch = tk.Button(window, image = search_icon, background = "white", borderwidth = 0, highlightthickness = 0, command = sb_delete)
         # Language
 buttonlanguage_en = tk.Button(window, text = "EN", font = ("Calibri",10), background = "white", borderwidth = 0, highlightthickness = 0, command = language_en)
 buttonlanguage_fr = tk.Button(window, text = "FR", font = ("Calibri",10), background = "white", borderwidth = 0, highlightthickness = 0, command = language_fr)
