@@ -6,17 +6,12 @@ File that contains all the classes of The_Kitchen_Project.
 
 import tkinter as tk
 
-
 class MainMenu:
     def __init__(self, root, width, height, lang):
-
-        # ================= Window parameters =================
-
+        # ================= Root 
         self.root = root
-        self.root.geometry(str(width) + "x" + str(height)) # widthxheight
-        self.lang = Language(lang)
-        self.root.title(self.lang.title)
-        self.root.configure(bg='white')
+        self.lang= Language(lang)
+        # ================= Window parameters =================
         self.can = tk.Canvas(self.root, bg="white",
                              width=width, height=height)
         self.can.place(x=0, y=0)
@@ -38,8 +33,7 @@ class MainMenu:
             0, 0, width, height*0.20, fill='orange', outline='white')
 
         # ===== Title =====
-        self.can.create_text(width*0.5, height*0.05, text=self.lang.title,
-                             fill="black", font=("Calibri light", 30))
+        self.can.create_text(width*0.5, height*0.05, text=self.lang.title, fill="black", font=("Calibri Light", 30))
 
         # ===== Search Bar =====
         self.search_bar = tk.Entry(
@@ -77,9 +71,6 @@ class MainMenu:
         self.buttonlanguage_fr.pack()
         self.buttonlanguage_fr.place(x=width*0.92, y=height*0.95)
 
-        # ================= Main Loop =================
-
-        self.root.mainloop()
 
     # ================= Functions =================
 
@@ -88,14 +79,19 @@ class MainMenu:
         """
         can.delete("all")
 
+    # Search bar main menu
     # Parameter *args is to fix window.bind('<Return>', SBDelete) (Will raise an error otherwise)
     def SBDelete(self, *args):
         self.search_bar.delete(0, "end")
 
     def favoriteWindow(self):
-        self.newWindow = tk.Toplevel(self.root)
-        self.newWindow.title("Favorites")
-        self.newWindow.geometry("1000x700")
+        self.can.destroy()
+        favourites(self.root, 1000, 700, 'EN')
+        
+    def searchBarDelete(self):
+        """Function to delete what's inside the search bar
+        """
+        self.search_bar.delete('0', "end")
 
     def language_fr(self):
         """Function that changes the language to French
@@ -103,8 +99,9 @@ class MainMenu:
         if self.lang.language == 'FR':  # Check if the language is already English
             return
         else:
+            self.lang = 'FR'
             self.root.destroy()
-            MainMenu(tk.Tk(), 1000, 700, 'FR')
+            MainFrame(tk.Tk(), 1000, 700, 'FR')
 
     def language_en(self):
         """Function that changes the language to French
@@ -112,8 +109,9 @@ class MainMenu:
         if self.lang.language == 'EN':  # Check if the language is already English
             return
         else:
+            self.lang = 'EN'
             self.root.destroy()
-            MainMenu(tk.Tk(), 1000, 700, 'EN')
+            MainFrame(tk.Tk(), 1000, 700, 'EN')
 
 
 class Language():
@@ -128,11 +126,54 @@ class Language():
         if lang == "FR":
             self.searchbartxt = "Taper votre recherche ici..."
             self.profile = "Mon profil"
-            self.title = "Le Projet Couisine"
+            self.title = "The Kitchen Project"
             self.fav = "Favoris"
+            self.back = "Back"
         # English (by default)
         else:
             self.searchbartxt = "Type something here..."
             self.profile = "My profile"
             self.title = "The Kitchen Project"
             self.fav = "Favorites"
+            self.back = "Retour"
+
+
+class favourites:
+    def __init__(self, root, width, height, lang):
+        # Initialization of the new canvas
+            # basics
+        self.root = root
+        self.width, self.height = width, height
+        self.lang = Language(lang)
+        # Canvas
+        self.can = tk.Canvas(self.root, bg="white",
+                             width=width, height=height)
+        self.can.place(x=0, y=0)
+
+        # Buttons
+        self.back_mainmenu = tk.Button(self.root, background="orange", text = self.lang.back,
+                                        borderwidth=0, highlightthickness=0, command=self.back_mm)
+        self.back_mainmenu.pack()
+        self.back_mainmenu.place(x=width*0.83, y=height*0.14)
+        self.can.create_text(width*0.93, height*0.16, text=self.lang.fav,
+                             fill="black", font=("Calibri light", 15))
+    
+    # back to mainmenu
+    def back_mm(self):
+        self.can.destroy()
+        MainMenu(self.root, 1000, 700, 'EN')
+
+
+# MAIN FRAME
+class MainFrame:
+    def __init__(self, root, width, height, lang):
+        self.root = root
+        self.root.geometry(str(width) + "x" + str(height))
+        self.lang = Language(lang)
+        self.root.title(self.lang.title)
+        self.root.configure(bg='white')
+    
+        # ================= Launching Main
+        MainMenu(self.root, 1000, 700, lang)
+        # ================= Main Loop =================
+        self.root.mainloop()

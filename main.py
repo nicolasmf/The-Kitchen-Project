@@ -1,5 +1,5 @@
 import tkinter as tk
-from src.classes import MainMenu
+from src.classes import MainFrame
 
 root = tk.Tk()
-MainMenu(root, 1000, 700, 'EN')
+MainFrame(root, 1000, 700, 'EN')
