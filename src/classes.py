@@ -13,7 +13,7 @@ class MainMenu:
         # ================= Window parameters =================
 
         self.root = root
-        self.root.geometry(str(width) + "x" + str(height))
+        self.root.geometry(str(width) + "x" + str(height)) # widthxheight
         self.lang = Language(lang)
         self.root.title(self.lang.title)
         self.root.configure(bg='white')
@@ -88,7 +88,6 @@ class MainMenu:
         """
         can.delete("all")
 
-    # Search bar main menu
     # Parameter *args is to fix window.bind('<Return>', SBDelete) (Will raise an error otherwise)
     def SBDelete(self, *args):
         self.search_bar.delete(0, "end")
@@ -98,18 +97,12 @@ class MainMenu:
         self.newWindow.title("Favorites")
         self.newWindow.geometry("1000x700")
 
-    def searchBarDelete(self):
-        """Function to delete what's inside the search bar
-        """
-        self.search_bar.delete('0', "end")
-
     def language_fr(self):
         """Function that changes the language to French
         """
         if self.lang.language == 'FR':  # Check if the language is already English
             return
         else:
-            self.lang = 'FR'
             self.root.destroy()
             MainMenu(tk.Tk(), 1000, 700, 'FR')
 
@@ -119,7 +112,6 @@ class MainMenu:
         if self.lang.language == 'EN':  # Check if the language is already English
             return
         else:
-            self.lang = 'EN'
             self.root.destroy()
             MainMenu(tk.Tk(), 1000, 700, 'EN')
 
