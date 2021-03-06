@@ -3,8 +3,9 @@
 File that contains all the classes of The_Kitchen_Project.
 
 """
-
+# === Import
 import tkinter as tk
+calibri ="Calibri light"
 
 class MainMenu:
     def __init__(self, root, width, height, lang):
@@ -22,18 +23,16 @@ class MainMenu:
             file=r"img/magnifier_icon.png").subsample(20, 20)
         self.favorite_star = tk.PhotoImage(
             file=r"img/star.png").subsample(20, 20)
-
-        # ================= Entries and Buttons initialization =================
-
+        self.schedule_icon = tk.PhotoImage(
+            file=r"img/schedule.png").subsample(20, 20)
         # ================= Menu design =================
-
         # ========== Up border ==========
 
         self.can.create_rectangle(
             0, 0, width, height*0.20, fill='orange', outline='white')
 
         # ===== Title =====
-        self.can.create_text(width*0.5, height*0.05, text=self.lang.title, fill="black", font=("Calibri Light", 30))
+        self.can.create_text(width*0.5, height*0.05, text=self.lang.title, fill="black", font=(calibri, 30))
 
         # ===== Search Bar =====
         self.search_bar = tk.Entry(
@@ -44,23 +43,30 @@ class MainMenu:
         self.search_bar.insert(0, self.lang.searchbartxt)
         self.search_bar.bind(
             "<FocusIn>", func=lambda e: self.search_bar.delete('0', "end"))
-
+        # ===== Buttons =====
         self.button_search = tk.Button(self.root, image=self.search_icon, background="white",
-                                       borderwidth=0, highlightthickness=0, command=self.SBDelete)
+                                       borderwidth=0, highlightthickness=0, command=self.sb_delete)
         self.button_search.pack()
+        # placement
         self.button_search.place(x=width*0.71, y=height*0.14)
-
-        # Binding return key to SBDelete function
-        self.root.bind('<Return>', self.SBDelete)
+        # =========== Schedule Buttons ====
+        self.button_schedule = tk.Button(self.root ,image = self.schedule_icon, background="orange",
+                                       borderwidth=0, highlightthickness=0, command=self.schedule)
+        self.button_schedule.pack()
+        self.button_schedule.place(x=width*0.83, y=height*0.10)
+        # Binding return key to sb_delete function
+        self.root.bind('<Return>', self.sb_delete)
 
         # ===== Favorite =====
-        self.buttonFavorite = tk.Button(self.root, image=self.favorite_star, background="orange",
-                                        borderwidth=0, highlightthickness=0, command=self.favoriteWindow)
-        self.buttonFavorite.pack()
-        self.buttonFavorite.place(x=width*0.83, y=height*0.14)
+        self.buttonfavorite = tk.Button(self.root, image=self.favorite_star, background="orange",
+                                        borderwidth=0, highlightthickness=0, command=self.favoritewindow)
+        self.buttonfavorite.pack()
+        self.buttonfavorite.place(x=width*0.83, y=height*0.14)
+        # ======= Text
         self.can.create_text(width*0.93, height*0.16, text=self.lang.fav,
-                             fill="black", font=("Calibri light", 15))
-
+                             fill="black", font=(calibri, 15))
+        self.can.create_text(width*0.93, height*0.12, text=self.lang.schedule,
+                             fill="black", font=(calibri, 15))
         # ===== Language =====
         self.buttonlanguage_en = tk.Button(self.root, text="EN", font=(
             "Calibri", 10), background="white", borderwidth=0, highlightthickness=0, command=self.language_en)
@@ -72,23 +78,24 @@ class MainMenu:
         self.buttonlanguage_fr.place(x=width*0.92, y=height*0.95)
 
 
+
     # ================= Functions =================
 
-    def deleteCanvas(self):
+    def deletecanvas(self):
         """Function that deletes all the elements of the Canvas
         """
         can.delete("all")
 
     # Search bar main menu
-    # Parameter *args is to fix window.bind('<Return>', SBDelete) (Will raise an error otherwise)
-    def SBDelete(self, *args):
+    # Parameter *args is to fix window.bind('<Return>', sb_delete) (Will raise an error otherwise)
+    def sb_delete(self, *args):
         self.search_bar.delete(0, "end")
 
-    def favoriteWindow(self):
+    def favoritewindow(self):
         self.can.destroy()
-        favourites(self.root, 1000, 700, 'EN')
+        Favourites(self.root, 1000, 700, 'EN')
         
-    def searchBarDelete(self):
+    def searchbardelete(self):
         """Function to delete what's inside the search bar
         """
         self.search_bar.delete('0', "end")
@@ -112,8 +119,15 @@ class MainMenu:
             self.lang = 'EN'
             self.root.destroy()
             MainFrame(tk.Tk(), 1000, 700, 'EN')
+    
+    # ====== Funcion Schedule
+    def schedule(self):
+        """Function that lanches the schedule-page // detroy main menu
+        """
+        self.can.destroy()
+        Schedule(self.root, 1000, 700, 'EN')
 
-
+# ===================================================================== L A N G U A G E ===============================
 class Language():
     """Class that allow the user to change language
     """
@@ -121,7 +135,7 @@ class Language():
     def __init__(self, lang):
         """Initialisation of the class language
         """
-        self.language = lang
+        self.lang = lang
         # French
         if lang == "FR":
             self.searchbartxt = "Taper votre recherche ici..."
@@ -129,6 +143,7 @@ class Language():
             self.title = "The Kitchen Project"
             self.fav = "Favoris"
             self.back = "Back"
+            self.schedule = "Schedule"
         # English (by default)
         else:
             self.searchbartxt = "Type something here..."
@@ -136,9 +151,10 @@ class Language():
             self.title = "The Kitchen Project"
             self.fav = "Favorites"
             self.back = "Retour"
+            self.schedule = "Planning"
 
 
-class favourites:
+class Favourites:
     def __init__(self, root, width, height, lang):
         # Initialization of the new canvas
             # basics
@@ -153,8 +169,10 @@ class favourites:
         # Buttons
         self.back_mainmenu = tk.Button(self.root, background="orange", text = self.lang.back,
                                         borderwidth=0, highlightthickness=0, command=self.back_mm)
+        # Buttons placement
         self.back_mainmenu.pack()
         self.back_mainmenu.place(x=width*0.83, y=height*0.14)
+        # Text
         self.can.create_text(width*0.93, height*0.16, text=self.lang.fav,
                              fill="black", font=("Calibri light", 15))
     
@@ -163,8 +181,44 @@ class favourites:
         self.can.destroy()
         MainMenu(self.root, 1000, 700, 'EN')
 
+# ========================================================== S C H E D U L E =====================================
+class Schedule:
+    def __init__(self, root, width, height, lang):
+        # === Root
+        self.root = root
+        # === Parameters 
+        self.width = width
+        self.height = height
+        self.lang = Language(lang)
+        # === Canvas parameters
+        self.can = self.can = tk.Canvas(self.root, bg="white",
+                             width=width, height=height)
+        self.can.place(x=0, y=0)
+        # === Design parameters
+        self.can.create_rectangle(0, 0, width, height*0.20, fill='orange', outline='white')
+        self.can.create_text(width*0.5, height*0.05, text=self.lang.title, fill="black", font=("Calibri Light", 30))
+        # === Image
+        self.home_page = tk.PhotoImage(file=r"img/home.png").subsample(20, 20)
 
-# MAIN FRAME
+        # === Buttons creation
+        self.return_home = tk.Button(self.root, font=("Calibri", 10), image=self.home_page, 
+            background="white", borderwidth=0, highlightthickness=0, command=self.return_home_f)
+        
+        
+        # === Buttons placement
+        self.return_home.pack()
+        self.return_home.place(x= width*0.05, y= height*0.13)
+        # === Data base analysis
+
+    # === Functions
+    def return_home_f (self):
+        """Function that allows the user to go on the main page
+        """
+        self.can.destroy()
+        MainMenu(self.root, 1000, 700, self.lang)
+
+
+# ============================================================= MAIN FRAME =================================================
 class MainFrame:
     def __init__(self, root, width, height, lang):
         self.root = root
