@@ -125,7 +125,7 @@ class MainMenu:
         """Function that lanches the schedule-page // detroy main menu
         """
         self.can.destroy()
-        Schedule(self.root, 1000, 700, 'EN')
+        Schedule(self.root, 1000, 700, self.lang)
 
 # ===================================================================== L A N G U A G E ===============================
 class Language():
@@ -138,20 +138,50 @@ class Language():
         self.lang = lang
         # French
         if lang == "FR":
+            #Mainmenu
             self.searchbartxt = "Taper votre recherche ici..."
             self.profile = "Mon profil"
             self.title = "The Kitchen Project"
             self.fav = "Favoris"
             self.back = "Back"
             self.schedule = "Schedule"
-        # English (by default)
+            #Schedule
+            self.launch = "Lancer la prépartion"
+            self.review = "Revoir la prépartion"
+                #launch
+            self.launch_mode = "Mode de lancement :"
+            self.show_list_of_steps = "Afficher les étapes de préparation"
+            self.list_mode = "En liste"
+            self.step_by_step = "En étape-par-étape"
+            self.real_time_mode = "En temps réél"
+                #review
+            self.view_list_steps = "Afficher les étapes"
+            self.edit_list_recipes = "Modifier la liste des recettes"
+            self.edit_list_steps = "Modifier les étapes"
+            self.specification = "Personnaliser ma cuisine"
+        # ==================== English (by default)
         else:
+            #Mainmenu
             self.searchbartxt = "Type something here..."
             self.profile = "My profile"
             self.title = "The Kitchen Project"
             self.fav = "Favorites"
             self.back = "Retour"
             self.schedule = "Planning"
+            #Schedule
+            self.launch = "Launch the preparation"
+            self.review = "Review the preparation"
+                #launch
+            self.launch_mode = "Launch mode :"
+            self.show_list_of_steps = "Show the list of steps"
+            self.list_mode = "List format"
+            self.step_by_step = "Step-by-step"
+            self.real_time_mode = "In real time"
+                #review
+            self.view_list_steps = "View list of steps"
+            self.edit_list_recipes = "Edit list of recipes"
+            self.edit_list_steps = "Edit list of steps"
+            self.specification = "Specify my kitchen"
 
 
 class Favourites:
@@ -203,11 +233,49 @@ class Schedule:
         # === Buttons creation
         self.return_home = tk.Button(self.root, font=("Calibri", 10), image=self.home_page, 
             background="white", borderwidth=0, highlightthickness=0, command=self.return_home_f)
-        
+            
+            # == menu schedule
+        self.launch = tk.Button(self.root, font=("Calibri", 10), text=self.lang.launch, 
+            background="white", highlightthickness=0, command=self.launch)
+
+        self.review= tk.Button(self.root, font=("Calibri", 10), text=self.lang.review, 
+            background="white", highlightthickness=0, command=self.review)
+            
+            # == sub menu launch
+        self.show_list_of_steps = tk.Button(self.root, font=("Calibri", 10), text=self.lang.show_list_of_steps, 
+            background="white", highlightthickness=0, command=self.launch)
+
+        self.list_mode = tk.Button(self.root, font=("Calibri", 10), text=self.lang.list_mode, 
+            background="white", highlightthickness=0, command=self.launch)
+
+        self.step_by_step_mode = tk.Button(self.root, font=("Calibri", 10), text=self.lang.step_by_step, 
+            background="white", highlightthickness=0, command=self.launch)
+
+        self.real_time_mode = tk.Button(self.root, font=("Calibri", 10), text=self.lang.real_time_mode, 
+            background="white", highlightthickness=0, command=self.launch)
+            
+            # == sub menu review
+        self.view_list_steps = tk.Button(self.root, font=("Calibri", 10), text=self.lang.view_list_steps, 
+            background="white", highlightthickness=0, command=self.launch)
+
+        self.edit_list_recipes = tk.Button(self.root, font=("Calibri", 10), text=self.lang.edit_list_recipes, 
+            background="white", highlightthickness=0, command=self.launch)
+
+        self.edit_list_steps = tk.Button(self.root, font=("Calibri", 10), text=self.lang.edit_list_steps, 
+            background="white", highlightthickness=0, command=self.launch)
+
+        self.specification = tk.Button(self.root, font=("Calibri", 10), text=self.lang.specification, 
+            background="white", highlightthickness=0, command=self.launch)
         
         # === Buttons placement
+            #home
         self.return_home.pack()
         self.return_home.place(x= width*0.05, y= height*0.13)
+            #menu
+        self.launch.pack()
+        self.launch.place(x= width*0.5, y= height*0.35, width = 200, height = 50, anchor ="n")
+        self.review.pack()
+        self.review.place(x= width*0.5, y= height*0.65, width = 200, height = 50, anchor ="n")
         # === Data base analysis
 
     # === Functions
@@ -216,18 +284,68 @@ class Schedule:
         """
         self.can.destroy()
         MainMenu(self.root, 1000, 700, self.lang)
+    
+    # === sub - menu
+    def launch(self):
+        """Function that launches the sub - menu: Launch
+        """
+        #Deleting all buttons
+        self.hide_buttons(1)
+        #Packing
+        self.show_list_of_steps.pack()
+        self.list_mode.pack()
+        self.step_by_step_mode.pack()
+        self.real_time_mode.pack()
+        #Placing buttons
+        self.show_list_of_steps.place(x= self.width*0.5, y= self.height*0.35, width = 200, height = 50, anchor ="n")
+        self.list_mode.place(x= self.width*0.5, y= self.height*0.55, width = 200, height = 50, anchor ="n")
+        self.step_by_step_mode.place(x= self.width*0.5, y= self.height*0.65, width = 200, height = 50, anchor ="n")
+        self.real_time_mode.place(x= self.width*0.5, y= self.height*0.75, width = 200, height = 50, anchor ="n")
+        #Text
+        self.can.create_text(self.width*0.5, self.height*0.5,font=("Calibri", 15), text =self.lang.launch_mode)
 
+    
+    def review(self):
+        """Function that launches the sub - menu: Review
+        """
+        #Deleting allbuttons
+        self.hide_buttons(1)
+        #Packing
+        self.view_list_steps.pack()
+        self.edit_list_recipes.pack()
+        self.edit_list_steps.pack()
+        self.specification.pack()
+        #Placing buttons
+        self.view_list_steps.place(x= self.width*0.5, y= self.height*0.25, width = 200, height = 50, anchor ="n")
+        self.edit_list_recipes.place(x= self.width*0.5, y= self.height*0.45, width = 200, height = 50, anchor ="n")
+        self.edit_list_steps.place(x= self.width*0.5, y= self.height*0.55, width = 200, height = 50, anchor ="n")
+        self.specification.place(x= self.width*0.5, y= self.height*0.75, width = 200, height = 50, anchor ="n")
 
+    # === Hide buttons function
+    def hide_buttons(self, key):
+        """Function that hide all the buttons of the Canvas
+        """
+        if (key == 1):
+            # menu schedule
+            self.launch.place_forget()
+            self.review.place_forget()
+        elif (key == 2):
+            # sub menu "launch"
+            print("1")
+        elif (key == 3):
+            # sub menu "review"
+            print("2")
 # ============================================================= MAIN FRAME =================================================
 class MainFrame:
     def __init__(self, root, width, height, lang):
         self.root = root
+        self.width, self.height = width, height
         self.root.geometry(str(width) + "x" + str(height))
         self.lang = Language(lang)
         self.root.title(self.lang.title)
         self.root.configure(bg='white')
-    
+        #self.root.resize()
         # ================= Launching Main
-        MainMenu(self.root, 1000, 700, lang)
+        MainMenu(self.root, width, height, lang)
         # ================= Main Loop =================
         self.root.mainloop()
