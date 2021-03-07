@@ -6,11 +6,12 @@ File that contains all the classes of The_Kitchen_Project.
 
 import tkinter as tk
 
+
 class MainMenu:
     def __init__(self, root, width, height, lang):
-        # ================= Root 
+        # ================= Root =================
         self.root = root
-        self.lang= Language(lang)
+        self.lang = Language(lang)
         # ================= Window parameters =================
         self.can = tk.Canvas(self.root, bg="white",
                              width=width, height=height)
@@ -27,13 +28,14 @@ class MainMenu:
 
         # ================= Menu design =================
 
-        # ========== Up border ==========
+        # ========== Head ==========
 
         self.can.create_rectangle(
             0, 0, width, height*0.20, fill='orange', outline='white')
 
         # ===== Title =====
-        self.can.create_text(width*0.5, height*0.05, text=self.lang.title, fill="black", font=("Calibri Light", 30))
+        self.can.create_text(width*0.5, height*0.05, text=self.lang.title,
+                             fill="black", font=("Calibri Light", 30))
 
         # ===== Search Bar =====
         self.search_bar = tk.Entry(
@@ -61,7 +63,27 @@ class MainMenu:
         self.can.create_text(width*0.93, height*0.16, text=self.lang.fav,
                              fill="black", font=("Calibri light", 15))
 
+        # ========== Body ==========
+
+        # ===== Theme selection =====
+
+        self.rectx1 = 43.75         # Random values to
+        self.rectx2 = 318.75        # fit 3 rectangles
+
+        self.recty1 = 320           # Middle of the white
+        self.recty2 = 520           # canvas is at 420
+
+        self.can.create_rectangle(
+            self.rectx1, self.recty1, self.rectx2, self.recty2)
+        self.can.create_rectangle(
+            self.rectx1+self.rectx2, self.recty1, self.rectx2+self.rectx2, self.recty2)
+        self.can.create_rectangle(
+            self.rectx1+self.rectx2*2, self.recty1, self.rectx2+self.rectx2*2, self.recty2)
+
+        # ========== Footer ==========
+
         # ===== Language =====
+
         self.buttonlanguage_en = tk.Button(self.root, text="EN", font=(
             "Calibri", 10), background="white", borderwidth=0, highlightthickness=0, command=self.language_en)
         self.buttonlanguage_fr = tk.Button(self.root, text="FR", font=(
@@ -70,7 +92,6 @@ class MainMenu:
         self.buttonlanguage_en.place(x=width*0.96, y=height*0.95)
         self.buttonlanguage_fr.pack()
         self.buttonlanguage_fr.place(x=width*0.92, y=height*0.95)
-
 
     # ================= Functions =================
 
@@ -87,7 +108,7 @@ class MainMenu:
     def favoriteWindow(self):
         self.can.destroy()
         favourites(self.root, 1000, 700, 'EN')
-        
+
     def searchBarDelete(self):
         """Function to delete what's inside the search bar
         """
@@ -141,7 +162,7 @@ class Language():
 class favourites:
     def __init__(self, root, width, height, lang):
         # Initialization of the new canvas
-            # basics
+        # basics
         self.root = root
         self.width, self.height = width, height
         self.lang = Language(lang)
@@ -151,13 +172,13 @@ class favourites:
         self.can.place(x=0, y=0)
 
         # Buttons
-        self.back_mainmenu = tk.Button(self.root, background="orange", text = self.lang.back,
-                                        borderwidth=0, highlightthickness=0, command=self.back_mm)
+        self.back_mainmenu = tk.Button(self.root, background="orange", text=self.lang.back,
+                                       borderwidth=0, highlightthickness=0, command=self.back_mm)
         self.back_mainmenu.pack()
         self.back_mainmenu.place(x=width*0.83, y=height*0.14)
         self.can.create_text(width*0.93, height*0.16, text=self.lang.fav,
                              fill="black", font=("Calibri light", 15))
-    
+
     # back to mainmenu
     def back_mm(self):
         self.can.destroy()
@@ -172,7 +193,7 @@ class MainFrame:
         self.lang = Language(lang)
         self.root.title(self.lang.title)
         self.root.configure(bg='white')
-    
+
         # ================= Launching Main
         MainMenu(self.root, 1000, 700, lang)
         # ================= Main Loop =================
