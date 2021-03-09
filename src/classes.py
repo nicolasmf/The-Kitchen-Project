@@ -12,9 +12,11 @@ class MainMenu:
         # ================= Root 
         self.root = root
         self.lang= Language(lang)
+        self.width = width
+        self.height = height
         # ================= Window parameters =================
         self.can = tk.Canvas(self.root, bg="white",
-                             width=width, height=height)
+                             width=self.width, height=self.height)
         self.can.place(x=0, y=0)
 
         # ================= Images initialization =================
@@ -29,17 +31,17 @@ class MainMenu:
         # ========== Up border ==========
 
         self.can.create_rectangle(
-            0, 0, width, height*0.20, fill='orange', outline='white')
+            0, 0, self.width, self.height*0.20, fill='orange', outline='white')
 
         # ===== Title =====
-        self.can.create_text(width*0.5, height*0.05, text=self.lang.title, fill="black", font=(calibri, 30))
+        self.can.create_text(self.width*0.5, self.height*0.05, text=self.lang.title, fill="black", font=(calibri, 30))
 
         # ===== Search Bar =====
         self.search_bar = tk.Entry(
-            self.root, width=int(width*0.5/8-1), justify="center")
+            self.root, width=int(self.width*0.5/8-1), justify="center")
         self.search_bar.pack()
-        self.search_bar.place(x=width*0.25, y=height*0.13,
-                              height=40, width=height*0.7)
+        self.search_bar.place(x=self.width*0.25, y=self.height*0.13,
+                              height=40, width=self.height*0.7)
         self.search_bar.insert(0, self.lang.searchbartxt)
         self.search_bar.bind(
             "<FocusIn>", func=lambda e: self.search_bar.delete('0', "end"))
@@ -48,12 +50,12 @@ class MainMenu:
                                        borderwidth=0, highlightthickness=0, command=self.sb_delete)
         self.button_search.pack()
         # placement
-        self.button_search.place(x=width*0.71, y=height*0.14)
+        self.button_search.place(x=self.width*0.71, y=self.height*0.14)
         # =========== Schedule Buttons ====
         self.button_schedule = tk.Button(self.root ,image = self.schedule_icon, background="orange",
                                        borderwidth=0, highlightthickness=0, command=self.schedule)
         self.button_schedule.pack()
-        self.button_schedule.place(x=width*0.83, y=height*0.10)
+        self.button_schedule.place(x=self.width*0.83, y=self.height*0.10)
         # Binding return key to sb_delete function
         self.root.bind('<Return>', self.sb_delete)
 
@@ -61,11 +63,11 @@ class MainMenu:
         self.buttonfavorite = tk.Button(self.root, image=self.favorite_star, background="orange",
                                         borderwidth=0, highlightthickness=0, command=self.favoritewindow)
         self.buttonfavorite.pack()
-        self.buttonfavorite.place(x=width*0.83, y=height*0.14)
+        self.buttonfavorite.place(x=self.width*0.83, y=self.height*0.14)
         # ======= Text
-        self.can.create_text(width*0.93, height*0.16, text=self.lang.fav,
+        self.can.create_text(self.width*0.93, self.height*0.16, text=self.lang.fav,
                              fill="black", font=(calibri, 15))
-        self.can.create_text(width*0.93, height*0.12, text=self.lang.schedule,
+        self.can.create_text(self.width*0.93, self.height*0.12, text=self.lang.schedule,
                              fill="black", font=(calibri, 15))
         # ===== Language =====
         self.buttonlanguage_en = tk.Button(self.root, text="EN", font=(
@@ -73,11 +75,9 @@ class MainMenu:
         self.buttonlanguage_fr = tk.Button(self.root, text="FR", font=(
             "Calibri", 10), background="white", borderwidth=0, highlightthickness=0, command=self.language_fr)
         self.buttonlanguage_en.pack()
-        self.buttonlanguage_en.place(x=width*0.96, y=height*0.95)
+        self.buttonlanguage_en.place(x=self.width*0.96, y=self.height*0.95)
         self.buttonlanguage_fr.pack()
-        self.buttonlanguage_fr.place(x=width*0.92, y=height*0.95)
-
-
+        self.buttonlanguage_fr.place(x=self.width*0.92, y=self.height*0.95)
 
     # ================= Functions =================
 
@@ -103,20 +103,18 @@ class MainMenu:
     def language_fr(self):
         """Function that changes the language to French
         """
-        if self.lang.language == 'FR':  # Check if the language is already English
+        if self.lang.lang == 'FR':  # Check if the language is already English
             return
         else:
-            self.lang = 'FR'
             self.root.destroy()
-            MainFrame(tk.Tk(), 1000, 700, 'FR')
+            MainFrame(tk.Tk(), self.width, self.height, 'FR')
 
     def language_en(self):
         """Function that changes the language to French
         """
-        if self.lang.language == 'EN':  # Check if the language is already English
+        if self.lang.lang == 'EN':  # Check if the language is already English
             return
         else:
-            self.lang = 'EN'
             self.root.destroy()
             MainFrame(tk.Tk(), 1000, 700, 'EN')
     
@@ -125,7 +123,7 @@ class MainMenu:
         """Function that lanches the schedule-page // detroy main menu
         """
         self.can.destroy()
-        Schedule(self.root, 1000, 700, self.lang)
+        Schedule(self.root, self.width, self.height, self.lang.lang)
 
 # ===================================================================== L A N G U A G E ===============================
 class Language():
@@ -137,14 +135,14 @@ class Language():
         """
         self.lang = lang
         # French
-        if lang == "FR":
+        if self.lang == "FR":
             #Mainmenu
             self.searchbartxt = "Taper votre recherche ici..."
             self.profile = "Mon profil"
             self.title = "The Kitchen Project"
             self.fav = "Favoris"
-            self.back = "Back"
-            self.schedule = "Schedule"
+            self.back = "Retour"
+            self.schedule = "Planning"
             #Schedule
             self.launch = "Lancer la prépartion"
             self.review = "Revoir la prépartion"
@@ -155,19 +153,22 @@ class Language():
             self.step_by_step = "En étape-par-étape"
             self.real_time_mode = "En temps réél"
                 #review
+            self.review_mode_1 = "Afficher avant préparation"
+            self.review_mode_2 = "Modifier avant préparation"
+            self.review_mode_3 = "Spécifier ma cuisine avant de commencer"
             self.view_list_steps = "Afficher les étapes"
             self.edit_list_recipes = "Modifier la liste des recettes"
             self.edit_list_steps = "Modifier les étapes"
             self.specification = "Personnaliser ma cuisine"
         # ==================== English (by default)
-        else:
+        elif self.lang == "EN":
             #Mainmenu
             self.searchbartxt = "Type something here..."
             self.profile = "My profile"
             self.title = "The Kitchen Project"
             self.fav = "Favorites"
-            self.back = "Retour"
-            self.schedule = "Planning"
+            self.back = "Back"
+            self.schedule = "Schedule"
             #Schedule
             self.launch = "Launch the preparation"
             self.review = "Review the preparation"
@@ -178,10 +179,16 @@ class Language():
             self.step_by_step = "Step-by-step"
             self.real_time_mode = "In real time"
                 #review
+            self.review_mode_1 = "View before preparation"
+            self.review_mode_2 = "Edit before preparation"
+            self.review_mode_3 = "Specify your kitchen befor preparation"
             self.view_list_steps = "View list of steps"
             self.edit_list_recipes = "Edit list of recipes"
             self.edit_list_steps = "Edit list of steps"
             self.specification = "Specify my kitchen"
+        else:
+            # Fatal error
+            print("E  R  R  O  R      L A N G")
 
 
 class Favourites:
@@ -209,7 +216,7 @@ class Favourites:
     # back to mainmenu
     def back_mm(self):
         self.can.destroy()
-        MainMenu(self.root, 1000, 700, 'EN')
+        MainMenu(self.root, 1000, 700, self.lang.lang)
 
 # ========================================================== S C H E D U L E =====================================
 class Schedule:
@@ -243,30 +250,31 @@ class Schedule:
             
             # == sub menu launch
         self.show_list_of_steps = tk.Button(self.root, font=("Calibri", 10), text=self.lang.show_list_of_steps, 
-            background="white", highlightthickness=0, command=self.launch)
+            background="white", highlightthickness=0, command=self.show_list_of_steps_f)
 
         self.list_mode = tk.Button(self.root, font=("Calibri", 10), text=self.lang.list_mode, 
-            background="white", highlightthickness=0, command=self.launch)
+            background="white", highlightthickness=0, command=self.list_mode_f)
 
         self.step_by_step_mode = tk.Button(self.root, font=("Calibri", 10), text=self.lang.step_by_step, 
-            background="white", highlightthickness=0, command=self.launch)
+            background="white", highlightthickness=0, command=self.step_by_step_mode_f)
 
         self.real_time_mode = tk.Button(self.root, font=("Calibri", 10), text=self.lang.real_time_mode, 
-            background="white", highlightthickness=0, command=self.launch)
+            background="white", highlightthickness=0, command=self.real_time_mode_f)
             
+        self.text_temp = 0
             # == sub menu review
         self.view_list_steps = tk.Button(self.root, font=("Calibri", 10), text=self.lang.view_list_steps, 
-            background="white", highlightthickness=0, command=self.launch)
+            background="white", highlightthickness=0, command=self.view_list_steps_f)
 
         self.edit_list_recipes = tk.Button(self.root, font=("Calibri", 10), text=self.lang.edit_list_recipes, 
-            background="white", highlightthickness=0, command=self.launch)
+            background="white", highlightthickness=0, command=self.edit_list_recipes_f)
 
         self.edit_list_steps = tk.Button(self.root, font=("Calibri", 10), text=self.lang.edit_list_steps, 
-            background="white", highlightthickness=0, command=self.launch)
+            background="white", highlightthickness=0, command=self.edit_list_step_f)
 
         self.specification = tk.Button(self.root, font=("Calibri", 10), text=self.lang.specification, 
-            background="white", highlightthickness=0, command=self.launch)
-        
+            background="white", highlightthickness=0, command=self.specification_f)
+
         # === Buttons placement
             #home
         self.return_home.pack()
@@ -278,12 +286,12 @@ class Schedule:
         self.review.place(x= width*0.5, y= height*0.65, width = 200, height = 50, anchor ="n")
         # === Data base analysis
 
-    # === Functions
+    # ========================================================================== Functions
     def return_home_f (self):
         """Function that allows the user to go on the main page
         """
         self.can.destroy()
-        MainMenu(self.root, 1000, 700, self.lang)
+        MainMenu(self.root, 1000, 700, self.lang.lang)
     
     # === sub - menu
     def launch(self):
@@ -297,12 +305,12 @@ class Schedule:
         self.step_by_step_mode.pack()
         self.real_time_mode.pack()
         #Placing buttons
-        self.show_list_of_steps.place(x= self.width*0.5, y= self.height*0.35, width = 200, height = 50, anchor ="n")
-        self.list_mode.place(x= self.width*0.5, y= self.height*0.55, width = 200, height = 50, anchor ="n")
-        self.step_by_step_mode.place(x= self.width*0.5, y= self.height*0.65, width = 200, height = 50, anchor ="n")
-        self.real_time_mode.place(x= self.width*0.5, y= self.height*0.75, width = 200, height = 50, anchor ="n")
+        self.show_list_of_steps.place(x= self.width*0.5, y= self.height*0.35, width = 250, height = 50, anchor ="n")
+        self.list_mode.place(x= self.width*0.5, y= self.height*0.55, width = 250, height = 50, anchor ="n")
+        self.step_by_step_mode.place(x= self.width*0.5, y= self.height*0.65, width = 250, height = 50, anchor ="n")
+        self.real_time_mode.place(x= self.width*0.5, y= self.height*0.75, width = 250, height = 50, anchor ="n")
         #Text
-        self.can.create_text(self.width*0.5, self.height*0.5,font=("Calibri", 15), text =self.lang.launch_mode)
+        self.text_temp = self.can.create_text(self.width*0.5, self.height*0.5,font=("Calibri", 15), text =self.lang.launch_mode)
 
     
     def review(self):
@@ -316,10 +324,14 @@ class Schedule:
         self.edit_list_steps.pack()
         self.specification.pack()
         #Placing buttons
-        self.view_list_steps.place(x= self.width*0.5, y= self.height*0.25, width = 200, height = 50, anchor ="n")
-        self.edit_list_recipes.place(x= self.width*0.5, y= self.height*0.45, width = 200, height = 50, anchor ="n")
-        self.edit_list_steps.place(x= self.width*0.5, y= self.height*0.55, width = 200, height = 50, anchor ="n")
-        self.specification.place(x= self.width*0.5, y= self.height*0.75, width = 200, height = 50, anchor ="n")
+        self.view_list_steps.place(x= self.width*0.5, y= self.height*0.30, width = 250, height = 50, anchor ="n")
+        self.edit_list_recipes.place(x= self.width*0.5, y= self.height*0.50, width = 250, height = 50, anchor ="n")
+        self.edit_list_steps.place(x= self.width*0.5, y= self.height*0.60, width = 250, height = 50, anchor ="n")
+        self.specification.place(x= self.width*0.5, y= self.height*0.85, width = 250, height = 50, anchor ="n")
+        # Text
+        self.text_temp = (self.can.create_text(self.width*0.5, self.height*0.25,font=("Calibri", 15), text =self.lang.review_mode_1),
+        self.can.create_text(self.width*0.5, self.height*0.46,font=("Calibri", 15), text =self.lang.review_mode_2),
+        self.can.create_text(self.width*0.5, self.height*0.80,font=("Calibri", 15), text =self.lang.review_mode_3))
 
     # === Hide buttons function
     def hide_buttons(self, key):
@@ -331,11 +343,66 @@ class Schedule:
             self.review.place_forget()
         elif (key == 2):
             # sub menu "launch"
-            print("1")
+            self.show_list_of_steps.place_forget()
+            self.list_mode.place_forget()
+            self.step_by_step_mode.place_forget()
+            self.real_time_mode.place_forget()
+            self.can.delete(self.text_temp)
         elif (key == 3):
             # sub menu "review"
-            print("2")
+            self.view_list_steps.place_forget()
+            self.edit_list_recipes.place_forget()
+            self.edit_list_steps.place_forget()
+            self.specification.place_forget()
+            self.can.delete(self.text_temp[0],self.text_temp[1], self.text_temp[2])
+    
+    # ========================================= R E D I R E C T
+        # ================== LAUNCH
+    def show_list_of_steps_f(self):
+        """ Function that allow the user to view the list of steps that they will follow
+        """
+        self.hide_buttons(2)
+        
+
+    def list_mode_f(self):
+        """ Function that allow the launching of the preparation in list - mode
+        """
+        self.hide_buttons(2)
+
+    def step_by_step_mode_f(self):
+        """ Function that allow the launching of the preparation in a step - by - step mode
+        """
+        self.hide_buttons(2)
+
+    def real_time_mode_f(self):
+        """ Function that allow the launching of the preparation in real - time mode
+        """
+        self.hide_buttons(2)
+
+        # ================== REVIEW
+    def view_list_steps_f (self):
+        """ Function that allows the user to visualize the number of steps and possibly edit it
+        """
+        self.hide_buttons(3)
+        
+    def edit_list_recipes_f (self):
+        """ Function that allows the user to edit their list of recipes
+        """
+        self.hide_buttons(3)
+        
+    def edit_list_step_f (self):
+        """ Function that allows the user to edit their list of steps
+        """
+        self.hide_buttons(3)
+        
+    def specification_f (self):
+        """ Function that allows the user to specify what tye of kitchen tools they use and whatever else...
+                                O P T I O N (when everything is finished)
+        """
+        self.hide_buttons(3)
+        
 # ============================================================= MAIN FRAME =================================================
+
 class MainFrame:
     def __init__(self, root, width, height, lang):
         self.root = root
@@ -344,8 +411,14 @@ class MainFrame:
         self.lang = Language(lang)
         self.root.title(self.lang.title)
         self.root.configure(bg='white')
-        #self.root.resize()
+        # ====== Resize
+        #self.root.minsize(self.width, self.height)
+        #self.root.maxsize(self.width +100, self.height +70)
+        self.root.resizable(width=False, height=False)
+        # { when we will want to be able to resize the window: how to know the size choosen :::}
+        # actualwidth = self.root.winfo_screenwidth()
+        # actualheight = self.root.winfo_screenheight()
         # ================= Launching Main
-        MainMenu(self.root, width, height, lang)
+        MainMenu(self.root, self.width, self.height, self.lang.lang)
         # ================= Main Loop =================
         self.root.mainloop()
