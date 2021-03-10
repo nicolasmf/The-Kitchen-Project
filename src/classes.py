@@ -147,7 +147,8 @@ class Language():
             self.launch = "Lancer la prépartion"
             self.review = "Revoir la prépartion"
                 #launch
-            self.launch_mode = "Mode de lancement :"
+            self.launch_mode = "Modes de lancement :"
+            self.display_mode = "Affichage :"
             self.show_list_of_steps = "Afficher les étapes de préparation"
             self.list_mode = "En liste"
             self.step_by_step = "En étape-par-étape"
@@ -173,7 +174,8 @@ class Language():
             self.launch = "Launch the preparation"
             self.review = "Review the preparation"
                 #launch
-            self.launch_mode = "Launch mode :"
+            self.launch_mode = "Launch modes :"
+            self.display_mode = "Displaying :"
             self.show_list_of_steps = "Show the list of steps"
             self.list_mode = "List format"
             self.step_by_step = "Step-by-step"
@@ -240,6 +242,12 @@ class Schedule:
         # === Buttons creation
         self.return_home = tk.Button(self.root, font=("Calibri", 10), image=self.home_page, 
             background="white", borderwidth=0, highlightthickness=0, command=self.return_home_f)
+
+        self.back_r = tk.Button(self.root, font=("Calibri", 10), text=self.lang.back, 
+            background="white", borderwidth=0, highlightthickness=0, command=self.back_r_f)
+        
+        self.back_l = tk.Button(self.root, font=("Calibri", 10), text=self.lang.back, 
+            background="white", borderwidth=0, highlightthickness=0, command=self.back_l_f)
             
             # == menu schedule
         self.launch = tk.Button(self.root, font=("Calibri", 10), text=self.lang.launch, 
@@ -278,12 +286,12 @@ class Schedule:
         # === Buttons placement
             #home
         self.return_home.pack()
-        self.return_home.place(x= width*0.05, y= height*0.13)
+        self.return_home.place(x= self.width*0.05, y= height*0.13)
             #menu
         self.launch.pack()
-        self.launch.place(x= width*0.5, y= height*0.35, width = 200, height = 50, anchor ="n")
+        self.launch.place(x= self.width*0.5, y= self.height*0.35, width = 200, height = 50, anchor ="n")
         self.review.pack()
-        self.review.place(x= width*0.5, y= height*0.65, width = 200, height = 50, anchor ="n")
+        self.review.place(x= self.width*0.5, y= self.height*0.65, width = 200, height = 50, anchor ="n")
         # === Data base analysis
 
     # ========================================================================== Functions
@@ -293,24 +301,32 @@ class Schedule:
         self.can.destroy()
         MainMenu(self.root, 1000, 700, self.lang.lang)
     
+    def back_l_f (self):
+        """ Function that allows the user to go back on the main menu schedule
+        """
+        #Deleting all buttons
+        self.hide_buttons(2)
+        #Placing the buttons
+        self.place_all_buttons(3)
+
+    def back_r_f (self):
+        """ Function that allows the user to go back on the main menu schedule
+        """
+        #Deleting all buttons
+        self.hide_buttons(3)
+        #Placing the buttons
+        self.place_all_buttons(3)
+    
     # === sub - menu
     def launch(self):
         """Function that launches the sub - menu: Launch
         """
         #Deleting all buttons
         self.hide_buttons(1)
-        #Packing
-        self.show_list_of_steps.pack()
-        self.list_mode.pack()
-        self.step_by_step_mode.pack()
-        self.real_time_mode.pack()
-        #Placing buttons
-        self.show_list_of_steps.place(x= self.width*0.5, y= self.height*0.35, width = 250, height = 50, anchor ="n")
-        self.list_mode.place(x= self.width*0.5, y= self.height*0.55, width = 250, height = 50, anchor ="n")
-        self.step_by_step_mode.place(x= self.width*0.5, y= self.height*0.65, width = 250, height = 50, anchor ="n")
-        self.real_time_mode.place(x= self.width*0.5, y= self.height*0.75, width = 250, height = 50, anchor ="n")
+        self.place_all_buttons(1)
         #Text
-        self.text_temp = self.can.create_text(self.width*0.5, self.height*0.5,font=("Calibri", 15), text =self.lang.launch_mode)
+        self.text_temp = (self.can.create_text(self.width*0.5, self.height*0.475,font=("Calibri", 15), text =self.lang.launch_mode),
+        self.can.create_text(self.width*0.5, self.height*0.275,font=("Calibri", 15), text =self.lang.display_mode))
 
     
     def review(self):
@@ -318,16 +334,7 @@ class Schedule:
         """
         #Deleting allbuttons
         self.hide_buttons(1)
-        #Packing
-        self.view_list_steps.pack()
-        self.edit_list_recipes.pack()
-        self.edit_list_steps.pack()
-        self.specification.pack()
-        #Placing buttons
-        self.view_list_steps.place(x= self.width*0.5, y= self.height*0.30, width = 250, height = 50, anchor ="n")
-        self.edit_list_recipes.place(x= self.width*0.5, y= self.height*0.50, width = 250, height = 50, anchor ="n")
-        self.edit_list_steps.place(x= self.width*0.5, y= self.height*0.60, width = 250, height = 50, anchor ="n")
-        self.specification.place(x= self.width*0.5, y= self.height*0.85, width = 250, height = 50, anchor ="n")
+        self.place_all_buttons(2)
         # Text
         self.text_temp = (self.can.create_text(self.width*0.5, self.height*0.25,font=("Calibri", 15), text =self.lang.review_mode_1),
         self.can.create_text(self.width*0.5, self.height*0.46,font=("Calibri", 15), text =self.lang.review_mode_2),
@@ -347,89 +354,147 @@ class Schedule:
             self.list_mode.place_forget()
             self.step_by_step_mode.place_forget()
             self.real_time_mode.place_forget()
-            self.can.delete(self.text_temp)
+            self.back_l.place_forget()
+            self.can.delete(self.text_temp[0],self.text_temp[1])
         elif (key == 3):
             # sub menu "review"
             self.view_list_steps.place_forget()
             self.edit_list_recipes.place_forget()
             self.edit_list_steps.place_forget()
             self.specification.place_forget()
+            self.back_r.place_forget()
             self.can.delete(self.text_temp[0],self.text_temp[1], self.text_temp[2])
-    
+
+    def place_all_buttons(self, key):
+        """Function that places the buttons in function of the key
+        """
+        if (key==1): #Launch
+            #Packing
+            self.show_list_of_steps.pack()
+            self.list_mode.pack()
+            self.step_by_step_mode.pack()
+            self.real_time_mode.pack()
+            self.back_l.pack()
+            #Placing buttons
+            self.show_list_of_steps.place(x= self.width*0.5, y= self.height*0.35, width = 250, height = 50, anchor ="n")
+            self.list_mode.place(x= self.width*0.5, y= self.height*0.55, width = 250, height = 50, anchor ="n")
+            self.step_by_step_mode.place(x= self.width*0.5, y= self.height*0.65, width = 250, height = 50, anchor ="n")
+            self.real_time_mode.place(x= self.width*0.5, y= self.height*0.75, width = 250, height = 50, anchor ="n")
+            self.back_l.place(x= self.width*0.75, y= self.height*0.90, width = 70, height = 50, anchor ="n")
+        elif (key ==2): # Review
+            #Packing
+            self.view_list_steps.pack()
+            self.edit_list_recipes.pack()
+            self.edit_list_steps.pack()
+            self.specification.pack()
+            self.back_r.pack()
+            #Placing buttons
+            self.view_list_steps.place(x= self.width*0.5, y= self.height*0.30, width = 250, height = 50, anchor ="n")
+            self.edit_list_recipes.place(x= self.width*0.5, y= self.height*0.50, width = 250, height = 50, anchor ="n")
+            self.edit_list_steps.place(x= self.width*0.5, y= self.height*0.60, width = 250, height = 50, anchor ="n")
+            self.specification.place(x= self.width*0.5, y= self.height*0.85, width = 250, height = 50, anchor ="n")
+            self.back_r.place(x= self.width*0.75, y= self.height*0.90, width = 70, height = 50, anchor ="n")
+        elif (key ==3): # Menu
+            #self.launch.pack()
+            self.launch.place(x= self.width*0.5, y= self.height*0.35, width = 200, height = 50, anchor ="n")
+            self.review.pack()
+            self.review.place(x= self.width*0.5, y= self.height*0.65, width = 200, height = 50, anchor ="n")
+
     # ========================================= R E D I R E C T
         # ================== LAUNCH
     def show_list_of_steps_f(self):
         """ Function that allow the user to view the list of steps that they will follow
         """
         self.hide_buttons(2)
-        show_list_of_steps_c(self.root, self.width, self.height-self.height*0.20, self.lang.lang)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 1)
 
     def list_mode_f(self):
         """ Function that allow the launching of the preparation in list - mode
         """
         self.hide_buttons(2)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 2)
 
     def step_by_step_mode_f(self):
         """ Function that allow the launching of the preparation in a step - by - step mode
         """
         self.hide_buttons(2)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 3)
 
     def real_time_mode_f(self):
         """ Function that allow the launching of the preparation in real - time mode
         """
         self.hide_buttons(2)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 4)
 
         # ================== REVIEW
     def view_list_steps_f (self):
         """ Function that allows the user to visualize the number of steps and possibly edit it
         """
         self.hide_buttons(3)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 5)
         
     def edit_list_recipes_f (self):
         """ Function that allows the user to edit their list of recipes
         """
         self.hide_buttons(3)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 6)
         
     def edit_list_step_f (self):
         """ Function that allows the user to edit their list of steps
         """
         self.hide_buttons(3)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 7)
         
     def specification_f (self):
         """ Function that allows the user to specify what tye of kitchen tools they use and whatever else...
                                 O P T I O N (when everything is finished)
         """
         self.hide_buttons(3)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 8)
 
-# =================================================== SUB CLASS SCHEDULE
-class show_list_of_steps_c :  
-    def __init__(self, root, width, height, lang):
-        # Initi root
+# =================================================== SUB CLASSes of SCHEDULE
+class ScheduleSubMenu:
+    def __init__(self, root, width, height, lang, key):
+        # Initialization root
         self.root = root
-        # Dim
+        # Dimension
         self.width, self.height = width, height
         # Definition of the Canvas
         self.can = tk.Canvas(self.root, bg="white",
-                             width=self.width, height=self.height)
-        self.can.place(x=0, y=self.height*0.25)
+                             width=self.width, height=self.height*0.8)
+        self.can.place(x=0, y=self.height*0.20)
+        self.height = self.height*0.8
         # Language
         self.lang = Language(lang)
+        #distribution
+        if (key == 1):
+            ShowListSteps(self.can, self.width, self.height, self.lang.lang)
+        elif (key == 2):
+            ListMode(self.can, self.width, self.height, self.lang.lang)
+        #elif (key == 3):
+            StepByStep(self.can, self.width, self.height, self.lang.lang)
+        #elif (key == 4):
+
+        #elif (key == 5):
+
+        #elif (key == 6):
+
+class ShowListSteps :  
+    def __init__(self, can, width, height, lang):
         # Variables
+        self.can, self.width, self.height, self.lang = can, width, height, Language(lang)
             # Index is of the form index = i[3], with i < [0, +inf[
         self.index = 0
         # Image
         self.three_dots = tk.PhotoImage(file=r"img/three_dots.png")
         # Buttons
         self.back =tk.Button(self.can, image=self.three_dots,
-            background="white", highlightthickness=0)
+            background="white", highlightthickness=0, command = self.back_f)
         self.next =tk.Button(self.can, font=("Calibri", 10), image=self.three_dots,
-            background="white", highlightthickness=0)
+            background="white", highlightthickness=0, command = self.next_f)
             # pack and place
-        self.back.pack()
         self.next.pack()
-
-        self.back.place(x=self.width*0.5, y=self.height*0.05, width = 50, height = 30)
-        self.next.place(x=self.width*0.5, y=self.height*0.9, width = 50, height = 30)
+        self.next.place(x=self.width*0.5, y=self.height*0.9, width = 100, height = 30, anchor = "n")
         
         # TEMP RECTANGLE
             # var middle point
@@ -452,18 +517,71 @@ class show_list_of_steps_c :
                                   self.middle_w + self.step_w, self.middle_h + self.step + self.step_h, fill='orange', outline='white')
         
         # Functions for the buttons
-        def back(self):
-            """Function that allow the user to get back on the list
-            """
+    def back_f(self):
+        """Function that allow the user to get back on the list
+        """
+        
+    def next_f(self):
+        """Function that allow the user to get back on the list
+        """
+        self.back.pack()
+        self.back.place(x=self.width*0.5, y=self.height*0.05, width = 100, height = 30, anchor = "n")
+        
+# ===================================
+class ListMode:
+    def __init__(self, can, width, height, lang):
+        # Variables
+        self.can, self.width, self.height, self.lang = can, width, height, Language(lang)
+        # Image
+        self.arrow_u = tk.PhotoImage(file=r"img/arrow_u.png")
+        self.arrow_d = tk.PhotoImage(file=r"img/arrow_d.png")
+        # Buttons
+        self.back =tk.Button(self.can, image=self.arrow_u,
+            background="white", highlightthickness=0, command = self.back_f)
+        self.next =tk.Button(self.can, font=("Calibri", 10), image=self.arrow_d,
+            background="white", highlightthickness=0, command = self.next_f)
+            # pack and place
+        self.next.pack()
+        self.next.place(x=self.width*0.015, y=self.height*0.84, width = 100, height = 100, anchor = "sw")
+        
+        # TEMP RECTANGLE
+            # var middle point
+        self.middle_w = self.width*0.5
+        self.middle_h = self.height*0.5
+            # var distance between middle and up/down
+        self.step = self.height*0.25
+            # var distance between middle and extremities
+        self.step_w = self.width*0.35
+        self.step_h = self.height*0.1
+            # Rectangle
+                # up
+        self.can.create_rectangle(self.middle_w - self.step_w, self.middle_h - self.step - self.step_h,
+                                  self.middle_w + self.step_w, self.middle_h - self.step + self.step_h, fill='orange', outline='white')
+                # middle
+        self.can.create_rectangle(self.middle_w - self.step_w, self.middle_h - self.step_h,
+                                  self.middle_w + self.step_w, self.middle_h + self.step_h, fill='orange', outline='white')
+                # down
+        self.can.create_rectangle(self.middle_w - self.step_w, self.middle_h + self.step - self.step_h,
+                                  self.middle_w + self.step_w, self.middle_h + self.step + self.step_h, fill='orange', outline='white')
+        
+        # Functions for the buttons
+    def back_f(self):
+        """Function that allow the user to get back on the list
+        """
+        
+    def next_f(self):
+        """Function that allow the user to get back on the list
+        """
+        self.back.pack()
+        self.back.place(x=self.width*0.015, y=self.height*0.16, width = 100, height = 100, anchor = "nw")
 
-        
-        def next(self):
-            """Function that allow the user to get back on the list
-            """
-        
-        
+class StepByStep:
+    def __init__(self, can, width, height, lang):
+        # Variables
+        self.can, self.width, self.height, self.lang = can, width, height, Language(lang)
+        # 
 
-# ============================================================= MAIN FRAME =================================================
+# ============================================================= MAIN FRAME =======================================================================
 
 class MainFrame:
     def __init__(self, root, width, height, lang):
