@@ -28,7 +28,7 @@ class MainMenu:
 
         # ================= Menu design =================
 
-        # ========== Head ==========
+        # ================= Head =================
 
         self.can.create_rectangle(
             0, 0, width, height*0.20, fill='orange', outline='white')
@@ -63,9 +63,9 @@ class MainMenu:
         self.can.create_text(width*0.93, height*0.16, text=self.lang.fav,
                              fill="black", font=("Calibri light", 15))
 
-        # ========== Body ==========
+        # ================= Body =================
 
-        # ===== Theme selection =====
+        # ========== Theme selection ==========
 
         self.rectx1 = 43.75         # Random values to
         self.rectx2 = 318.75        # fit 3 rectangles
@@ -80,7 +80,7 @@ class MainMenu:
         self.can.create_rectangle(
             self.rectx1+self.rectx2*2, self.recty1, self.rectx2+self.rectx2*2, self.recty2)
 
-        # ========== Footer ==========
+        # ================= Footer =================
 
         # ===== Language =====
 
