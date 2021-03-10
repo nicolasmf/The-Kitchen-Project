@@ -232,8 +232,8 @@ class Schedule:
                              width=width, height=height)
         self.can.place(x=0, y=0)
         # === Design parameters
-        self.can.create_rectangle(0, 0, width, height*0.20, fill='orange', outline='white')
-        self.can.create_text(width*0.5, height*0.05, text=self.lang.title, fill="black", font=("Calibri Light", 30))
+        self.can.create_rectangle(0, 0, self.width, self.height*0.20, fill='orange', outline='white')
+        self.can.create_text(self.width*0.5, self.height*0.05, text=self.lang.title, fill="black", font=("Calibri Light", 30))
         # === Image
         self.home_page = tk.PhotoImage(file=r"img/home.png").subsample(20, 20)
 
@@ -362,7 +362,7 @@ class Schedule:
         """ Function that allow the user to view the list of steps that they will follow
         """
         self.hide_buttons(2)
-        
+        show_list_of_steps_c(self.root, self.width, self.height-self.height*0.20, self.lang.lang)
 
     def list_mode_f(self):
         """ Function that allow the launching of the preparation in list - mode
@@ -400,7 +400,69 @@ class Schedule:
                                 O P T I O N (when everything is finished)
         """
         self.hide_buttons(3)
+
+# =================================================== SUB CLASS SCHEDULE
+class show_list_of_steps_c :  
+    def __init__(self, root, width, height, lang):
+        # Initi root
+        self.root = root
+        # Dim
+        self.width, self.height = width, height
+        # Definition of the Canvas
+        self.can = tk.Canvas(self.root, bg="white",
+                             width=self.width, height=self.height)
+        self.can.place(x=0, y=self.height*0.25)
+        # Language
+        self.lang = Language(lang)
+        # Variables
+            # Index is of the form index = i[3], with i < [0, +inf[
+        self.index = 0
+        # Image
+        self.three_dots = tk.PhotoImage(file=r"img/three_dots.png")
+        # Buttons
+        self.back =tk.Button(self.can, image=self.three_dots,
+            background="white", highlightthickness=0)
+        self.next =tk.Button(self.can, font=("Calibri", 10), image=self.three_dots,
+            background="white", highlightthickness=0)
+            # pack and place
+        self.back.pack()
+        self.next.pack()
+
+        self.back.place(x=self.width*0.5, y=self.height*0.05, width = 50, height = 30)
+        self.next.place(x=self.width*0.5, y=self.height*0.9, width = 50, height = 30)
         
+        # TEMP RECTANGLE
+            # var middle point
+        self.middle_w = self.width*0.5
+        self.middle_h = self.height*0.5
+            # var distance between middle and up/down
+        self.step = self.height*0.25
+            # var distance between middle and extremities
+        self.step_w = self.width*0.35
+        self.step_h = self.height*0.1
+            # Rectangle
+                # up
+        self.can.create_rectangle(self.middle_w - self.step_w, self.middle_h - self.step - self.step_h,
+                                  self.middle_w + self.step_w, self.middle_h - self.step + self.step_h, fill='orange', outline='white')
+                # middle
+        self.can.create_rectangle(self.middle_w - self.step_w, self.middle_h - self.step_h,
+                                  self.middle_w + self.step_w, self.middle_h + self.step_h, fill='orange', outline='white')
+                # down
+        self.can.create_rectangle(self.middle_w - self.step_w, self.middle_h + self.step - self.step_h,
+                                  self.middle_w + self.step_w, self.middle_h + self.step + self.step_h, fill='orange', outline='white')
+        
+        # Functions for the buttons
+        def back(self):
+            """Function that allow the user to get back on the list
+            """
+
+        
+        def next(self):
+            """Function that allow the user to get back on the list
+            """
+        
+        
+
 # ============================================================= MAIN FRAME =================================================
 
 class MainFrame:
