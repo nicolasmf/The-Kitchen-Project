@@ -10,6 +10,7 @@ calibri = "Calibri light"
 
 class MainMenu:
     def __init__(self, root, width, height, lang):
+        # ================= Root =================
         # ================= Root
         self.root = root
         self.lang = Language(lang)
@@ -72,6 +73,7 @@ class MainMenu:
         self.can.create_text(self.width*0.93, self.height*0.12, text=self.lang.schedule,
                              fill="black", font=(calibri, 15))
         # ===== Language =====
+
         self.buttonlanguage_en = tk.Button(self.root, text="EN", font=(
             "Calibri", 10), background="white", borderwidth=0, highlightthickness=0, command=self.language_en)
         self.buttonlanguage_fr = tk.Button(self.root, text="FR", font=(
