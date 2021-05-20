@@ -83,6 +83,35 @@ class MainMenu:
         self.buttonlanguage_fr.pack()
         self.buttonlanguage_fr.place(x=self.width*0.92, y=self.height*0.95)
 
+        # === LIST OF RECIPIES
+        self.list = []
+        # === Recipes buttons ===
+        self.button_moelleux= tk.Button(self.root, text=self.lang.add_word + self.lang.moelleux + self.lang.add_word2, font=(
+            "Calibri", 10), background="white", borderwidth=0, highlightthickness=0, command=self.f_moelleux)
+        
+        self.button_pie= tk.Button(self.root, text=self.lang.add_word + self.lang.pie + self.lang.add_word2, font=(
+            "Calibri", 10), background="white", borderwidth=0, highlightthickness=0, command=self.f_pie)
+        
+        self.button_muffin= tk.Button(self.root, text=self.lang.add_word + self.lang.muffin + self.lang.add_word2, font=(
+            "Calibri", 10), background="white", borderwidth=0, highlightthickness=0, command=self.f_muffin)
+        
+        self.button_yogurt= tk.Button(self.root,text=self.lang.add_word + self.lang.yogurt + self.lang.add_word2, font=(
+            "Calibri", 10), background="white", borderwidth=0, highlightthickness=0, command=self.f_yogurt)
+        
+        self.button_far= tk.Button(self.root, text=self.lang.add_word + self.lang.far + self.lang.add_word2, font=(
+            "Calibri", 10), background="white", borderwidth=0, highlightthickness=0, command=self.f_far)
+        # = pack ===
+        self.button_moelleux.pack()
+        self.button_pie.pack()
+        self.button_muffin.pack()
+        self.button_yogurt.pack()
+        self.button_far.pack()
+        # = Place
+        self.button_moelleux.place(x=self.width*0.5, y=self.height*0.3)
+        self.button_pie.place(x=self.width*0.5, y=self.height*0.4)
+        self.button_muffin.place(x=self.width*0.5, y=self.height*0.5)
+        self.button_yogurt.place(x=self.width*0.5, y=self.height*0.6)
+        self.button_far.place(x=self.width*0.5, y=self.height*0.7)
     # ================= Functions =================
 
     def deletecanvas(self):
@@ -121,6 +150,37 @@ class MainMenu:
         else:
             self.root.destroy()
             MainFrame(tk.Tk(), 1000, 700, 'EN')
+    # ====== Function recipes
+    def f_moelleux(self):
+        """ add the moelleux to the list if it ain't already there
+        """
+        if not self.if_exists('moelleux'):
+            self.list.append('moelleux')
+
+    def f_pie(self):
+        """ add the pieto the list if it ain't already there
+        """
+        if not self.if_exists('pie'):
+            self.list.append('pie')
+
+    def f_muffin(self):
+        """ add the muffin to the list if it ain't already there
+        """
+        if not self.if_exists('muffin'):
+            self.list.append('muffin')
+
+    def f_yogurt(self):
+        """ add the yogurt to the list if it ain't already there
+        """
+        if not self.if_exists('yogurt'):
+            self.list.append('yogurt')
+
+    def f_far(self):
+        """ add the far to the list if it ain't already there
+        """
+        if not self.if_exists('far'):
+            self.list.append('far')
+        print(self.list)
 
     # ====== Funcion Schedule
     def schedule(self):
@@ -128,6 +188,17 @@ class MainMenu:
         """
         self.can.destroy()
         Schedule(self.root, self.width, self.height, self.lang.lang)
+    
+    def if_exists(self, target):
+        """ Function that return 1 if 'it' exists in the list, 0 if not
+        """
+        end = 0
+        while end<len(self.list):
+            if self.list[end]==target:
+                return 1
+            else:
+                end+=1
+        return 0
 
 # ===================================================================== L A N G U A G E ===============================
 
@@ -153,6 +224,14 @@ class Language():
             # Schedule
             self.launch = "Lancer la prépartion"
             self.review = "Revoir la prépartion"
+            #Recipes
+            self.add_word = "Ajouter"
+            self.add_word2 = "à la liste"
+            self.moelleux = ""
+            self.pie = ""
+            self.muffin = ""
+            self.yogurt = ""
+            self.far = "Far Breton"
             # launch
             self.launch_mode = "Modes de lancement :"
             self.display_mode = "Affichage :"
@@ -181,6 +260,14 @@ class Language():
             # Schedule
             self.launch = "Launch the preparation"
             self.review = "Review the preparation"
+            #Recipes
+            self.add_word = "Add "
+            self.add_word2 = " to the list"
+            self.moelleux = "Fondant"
+            self.pie = "Lemon pie"
+            self.muffin = "Muffin"
+            self.yogurt = "Yogurt cake"
+            self.far = "Far Breton"
             # launch
             self.launch_mode = "Launch modes :"
             self.display_mode = "Displaying :"
@@ -252,7 +339,7 @@ class Schedule:
         self.can.create_text(self.width*0.5, self.height*0.05,
                              text=self.lang.title, fill="black", font=("Calibri Light", 30))
         # === Image
-        self.home_page = tk.PhotoImage(file=r"/img/home.png").subsample(20, 20)
+        self.home_page = tk.PhotoImage(file=r"img/home.png").subsample(20, 20)
 
         # === Buttons creation
         self.return_home = tk.Button(self.root, font=("Calibri", 10), image=self.home_page,
