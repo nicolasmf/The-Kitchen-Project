@@ -1,0 +1,7 @@
+6
+00.00 Prechauffez le four a 180°c
+00.10 Fouettez les 4 jaunes ensembles, ajoutez ensuite le sucre et mélanger
+00.15 Montez les blancs en neige et ajoutez les au mélange
+00.30 Ajoutez-y le chocolat fondu, le beurre mou et la farine
+00.35 Versez la préparation dans un plat beurré et enfournez pendant 35min
+01.10 Sortez le gâteau du four

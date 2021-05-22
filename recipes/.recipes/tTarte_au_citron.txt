@@ -1,0 +1,7 @@
+6
+00.00 Préchauffez le four à 220°C
+00.01 Garnissez un moule de tarte de pate
+00.04 Rincez le citrons, coupez-les en deux et pressez-les
+00.15 Foutez les oeufs avec le sucre, ajoutez-y le beurre fondu et le jus de citron
+00.20 Versez la préparation sur la pâte brisée et enfournez pour 15min
+00.35 Absorvez la cuisson qui peut prendre encore 15min
