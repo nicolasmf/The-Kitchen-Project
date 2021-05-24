@@ -9,13 +9,14 @@ calibri = "Calibri light"
 
 
 class MainMenu:
-    def __init__(self, root, width, height, lang, list):
+    def __init__(self, root, width, height, lang, list, list_of_steps):
         # ================= Root =================
         # ================= Root
         self.root = root
         self.lang = Language(lang)
         self.width = width
         self.height = height
+        self.list_of_steps = list_of_steps
         # ================= Window parameters =================
         self.can = tk.Canvas(self.root, bg="white",
                              width=self.width, height=self.height)
@@ -203,7 +204,7 @@ class MainMenu:
         """Function that lanches the schedule-page // detroy main menu
         """
         self.can.destroy()
-        Schedule(self.root, self.width, self.height, self.lang.lang, self.list)
+        Schedule(self.root, self.width, self.height, self.lang.lang, self.list, self.list_of_steps)
     
     def if_exists(self, target):
         """ Function that return 1 if 'it' exists in the list, 0 if not
@@ -340,7 +341,7 @@ class Favourites:
     # back to mainmenu
     def back_mm(self):
         self.can.destroy()
-        MainMenu(self.root, 1000, 700, self.lang.lang, self.list)
+        MainMenu(self.root, 1000, 700, self.lang.lang, self.list, self.list_of_steps)
 
 # ========================================================== S C H E D U L E =====================================
 
@@ -349,13 +350,14 @@ class Schedule:
     """ Class Schedule (that'll redirect to another sub-class in function of the mode chosen)
     """
 
-    def __init__(self, root, width, height, lang, list):
+    def __init__(self, root, width, height, lang, list, list_of_steps):
         # === Root
         self.root = root
         # === Parameters
         self.width = width
         self.height = height
         self.lang = Language(lang)
+        self.list_of_steps = list_of_steps
             # list
         self.list = list
         # === Canvas parameters
@@ -432,7 +434,7 @@ class Schedule:
         """Function that allows the user to go on the main page
         """
         self.can.destroy()
-        MainMenu(self.root, 1000, 700, self.lang.lang, self.list)
+        MainMenu(self.root, 1000, 700, self.lang.lang, self.list, self.list_of_steps)
 
     def back_l_f(self):
         """ Function that allows the user to go back on the main menu schedule
@@ -552,51 +554,51 @@ class Schedule:
         """ Function that allow the user to view the list of steps that they will follow
         """
         self.hide_buttons(2)
-        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 1, self.list)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 1, self.list, self.list_of_steps)
 
     def list_mode_f(self):
         """ Function that allow the launching of the preparation in list - mode
         """
         self.hide_buttons(2)
-        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 2, self.list)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 2, self.list, self.list_of_steps)
 
     def step_by_step_mode_f(self):
         """ Function that allow the launching of the preparation in a step - by - step mode
         """
         self.hide_buttons(2)
-        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 3, self.list)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 3, self.list, self.list_of_steps)
 
     def real_time_mode_f(self):
         """ Function that allow the launching of the preparation in real - time mode
         """
         self.hide_buttons(2)
-        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 4, self.list)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 4, self.list, self.list_of_steps)
 
         # ================== REVIEW
     def view_list_steps_f(self):
         """ Function that allows the user to visualize the number of steps and possibly edit it
         """
         self.hide_buttons(3)
-        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 5, self.list)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 5, self.list, self.list_of_steps)
 
     def edit_list_recipes_f(self):
         """ Function that allows the user to edit their list of recipes
         """
         self.hide_buttons(3)
-        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 6, self.list)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 6, self.list, self.list_of_steps)
 
     def edit_list_step_f(self):
         """ Function that allows the user to edit their list of steps
         """
         self.hide_buttons(3)
-        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 7, self.list)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 7, self.list, self.list_of_steps)
 
     def specification_f(self):
         """ Function that allows the user to specify what tye of kitchen tools they use and whatever else...
                                 O P T I O N (when everything is finished)
         """
         self.hide_buttons(3)
-        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 8, self.list)
+        ScheduleSubMenu(self.root, self.width, self.height, self.lang.lang, 8, self.list, self.list_of_steps)
 
 # =================================================== SUB CLASSes of SCHEDULE
 
@@ -605,7 +607,7 @@ class ScheduleSubMenu:
     """ Sub class of schedule that redirect the user to the correct sub - class
     """
 
-    def __init__(self, root, width, height, lang, key, list):
+    def __init__(self, root, width, height, lang, key, list, list_of_steps):
         # Initialization root
         self.root = root
         # Dimension
@@ -619,7 +621,11 @@ class ScheduleSubMenu:
         self.lang = Language(lang)
         # distribution
         self.list = list
-        self.list_of_steps = self.steps(self.list)
+        print(list_of_steps)
+        if list_of_steps==0:
+            self.list_of_steps = self.steps(self.list)
+        else:
+            self.list_of_steps = list_of_steps
             #print("Printing line 605:", self.list_of_steps)
         if (key == 1):
             # ================== Launch PART
@@ -745,7 +751,9 @@ class ShowListSteps:
                                   self.middle_w + self.step_w, self.middle_h + self.step + self.step_h, fill='orange', outline='white')
 
         # placing text into rectangels
-        if len(self.list_of_steps)>=1:
+        if self.list_of_steps==0:
+            return
+        elif len(self.list_of_steps)>=1:
             # First
             self.text0 = self.can.create_text(self.middle_w - self.width*0.3, self.middle_h - self.step,
                 text= self.list_of_steps[self.index], width = 550, anchor='w')
@@ -817,7 +825,9 @@ class ShowListSteps:
         # Moving to the next recipes
         self.index+=3
         # changing text
-        if (len(self.list_of_steps) - self.index)>=1:
+        if self.list_of_steps==0:
+            return
+        elif (len(self.list_of_steps) - self.index)>=1:
             # First
             self.text0 = self.can.create_text(self.middle_w - self.width*0.3, self.middle_h - self.step,
                 text= self.list_of_steps[self.index], width = 550, anchor='w')
@@ -851,7 +861,7 @@ class ShowListSteps:
         """
         self.can.destroy()
         Schedule(self.root, self.width, self.height /
-                 0.8, self.lang.lang, self.list).launch_f()
+                 0.8, self.lang.lang, self.list, self.list_of_steps).launch_f()
 
 
 # ===================================
@@ -908,7 +918,9 @@ class ListMode:
                                   self.middle_w + self.step_w, self.middle_h + self.step + self.step_h, fill='#ffcc99', outline='white')
 
         # placing text into rectangels
-        if len(self.list_of_steps)>=1:
+        if self.list_of_steps==0:
+            return
+        elif len(self.list_of_steps)>=1:
             # First
             self.text0 = self.can.create_text(self.middle_w - self.width*0.3, self.middle_h - self.step,
                 text= "", width = 550, anchor='w')
@@ -984,7 +996,9 @@ class ListMode:
         # Moving to the next recipes
         self.index+=1
         # changing text
-        if (len(self.list_of_steps) - self.index)>=1:
+        if self.list_of_steps==0:
+            return
+        elif (len(self.list_of_steps) - self.index)>=1:
             # First
             self.text0 = self.can.create_text(self.middle_w - self.width*0.3, self.middle_h - self.step,
                 text= self.list_of_steps[self.index], width = 550, anchor='w')
@@ -1017,7 +1031,7 @@ class ListMode:
         """
         self.can.destroy()
         Schedule(self.root, self.width, self.height /
-                 0.8, self.lang.lang, self.list).launch_f()
+                 0.8, self.lang.lang, self.list, self.list_of_steps).launch_f()
 
 
 # ===================================
@@ -1071,7 +1085,9 @@ class StepByStep:
                                   self.middle_w + self.step_w, self.middle_h + self.step + self.step_h, fill='#ffcc99', outline='white')
 
         # placing text into rectangels
-        if len(self.list_of_steps)>=1:
+        if self.list_of_steps==0:
+            return
+        elif len(self.list_of_steps)>=1:
             # First
             self.done.place(x=self.width*0.875, y=self.height*0.5,
                             width = 90, height = 90, anchor = "w")
@@ -1137,7 +1153,6 @@ class StepByStep:
         # forgetting button
         if self.index == -1:
             self.back.place_forget()
-        print(self.index , self.marqued_index-1)
         if self.index == self.marqued_index:
             self.done.place(x=self.width*0.875, y=self.height*0.5,
                             width = 90, height = 90, anchor = "w")
@@ -1152,7 +1167,7 @@ class StepByStep:
         """Function that allow the user to go next on the list
         """
         # place preview
-        if self.index+1 == self.marqued_index-1:
+        if self.index+1 == self.marqued_index:
             self.done.place(x=self.width*0.875, y=self.height*0.5,
                             width = 90, height = 90, anchor = "w")
         else:
@@ -1165,7 +1180,9 @@ class StepByStep:
         # Moving to the next recipes
         self.index+=1
         # changing text
-        if (len(self.list_of_steps) - self.index)>=1:
+        if self.list_of_steps==0:
+            return
+        elif (len(self.list_of_steps) - self.index)>=1:
             # First
             self.rect0 = self.can.create_rectangle(self.middle_w - self.step_w, self.middle_h - self.step - self.step_h,
             self.middle_w + self.step_w, self.middle_h - self.step + self.step_h, 
@@ -1209,6 +1226,12 @@ class StepByStep:
         # Marquing the done index
         self.marqued_index = self.index+1
         if self.index+1>=len(self.list_of_steps)-1:
+            self.can.delete(self.rect1, self.text1)
+            self.rect1 = self.can.create_rectangle(self.middle_w - self.step_w, self.middle_h - self.step_h,
+                    self.middle_w + self.step_w, self.middle_h + self.step_h, 
+                    fill='green', outline='white')
+            self.text1 = self.can.create_text(self.middle_w - self.width*0.3, self.middle_h,
+                    text= self.list_of_steps[self.index+1], width = 550, anchor='w')
             self.done.place_forget()
             return
         # changing the previous rectangle
@@ -1232,7 +1255,7 @@ class StepByStep:
         """
         self.can.destroy()
         Schedule(self.root, self.width, self.height /
-                 0.8, self.lang.lang, self.list).launch_f()
+                 0.8, self.lang.lang, self.list, self.list_of_steps).launch_f()
 
 
 # ===================================
@@ -1290,7 +1313,7 @@ class RealTimeMode:
         """
         self.can.destroy()
         Schedule(self.root, self.width, self.height /
-                 0.8, self.lang.lang, self.list).launch_f()
+                 0.8, self.lang.lang, self.list, self.list_of_steps).launch_f()
 
 # ===================================
 
@@ -1347,7 +1370,9 @@ class ViewListSteps:
                                   self.middle_w + self.step_w, self.middle_h + self.step + self.step_h, fill='orange', outline='white')
 
         # placing text into rectangels
-        if len(self.list_of_steps)>=1:
+        if self.list_of_steps==0:
+            return
+        elif len(self.list_of_steps)>=1:
             # First
             self.text0 = self.can.create_text(self.middle_w - self.width*0.3, self.middle_h - self.step,
                 text= self.list_of_steps[self.index], width = 550, anchor='w')
@@ -1419,7 +1444,9 @@ class ViewListSteps:
         # Moving to the next recipes
         self.index+=3
         # changing text
-        if (len(self.list_of_steps) - self.index)>=1:
+        if self.list_of_steps==0:
+            return
+        elif (len(self.list_of_steps) - self.index)>=1:
             # First
             self.text0 = self.can.create_text(self.middle_w - self.width*0.3, self.middle_h - self.step,
                 text= self.list_of_steps[self.index], width = 550, anchor='w')
@@ -1453,7 +1480,7 @@ class ViewListSteps:
         """
         self.can.destroy()
         Schedule(self.root, self.width, self.height /
-                 0.8, self.lang.lang, self.list).review_f()     
+                 0.8, self.lang.lang, self.list, self.list_of_steps).review_f()     
 
 # ===================================
 
@@ -1468,6 +1495,7 @@ class EditListRecipes:
         self.root = root
         self.list = list
         self.index = 0
+        self.list_of_steps = list_of_steps
         # img
         self.bin = tk.PhotoImage(file=r"img/Bin.png").subsample(10,10)
         # Buttons
@@ -1506,7 +1534,9 @@ class EditListRecipes:
         self.rect2 = self.can.create_rectangle(self.middle_w - self.step_w, self.middle_h + self.step - self.step_h,
                                   self.middle_w + self.step_w, self.middle_h + self.step + self.step_h, fill='orange', outline='white')
         # text 
-        if len(self.list)>=1:
+        if self.list_of_steps==0:
+            return
+        elif len(self.list)>=1:
             # First
             self.text0 = self.can.create_text(self.middle_w, self.middle_h - self.step,
                 text= self.list[self.index], width = 550, anchor='w')
@@ -1530,12 +1560,15 @@ class EditListRecipes:
                 else:
                     # deleting rectangles and texts that have no use
                     self.can.delete(self.rect2)
+                    self.text2 = 0
             else:
                 # deleting rectangles and texts that have no use
                 self.can.delete(self.rect1) ,self.can.delete(self.rect2)
+                self.text1, self.text2 = 0, 0
         else:
             # deleting rectangles and texts that have no use
             self.can.delete(self.rect0) ,self.can.delete(self.rect1) ,self.can.delete(self.rect2)
+            self.text2, self.text1, self.text0 = 0, 0, 0
         # Pack and place
         self.back_menu.place(x=self.width*0.1, y=self.height *
                              0.05, width=100, height=30, anchor="n")
@@ -1555,7 +1588,9 @@ class EditListRecipes:
         # Moving to the next recipes
         self.index+=3
         # changing text
-        if (len(self.list) - self.index)>=1:
+        if self.list_of_steps==0:
+            return
+        elif (len(self.list) - self.index)>=1:
             # First
             self.can.delete(self.text0)
             self.text0 = self.can.create_text(self.middle_w, self.middle_h - self.step,
@@ -1570,11 +1605,10 @@ class EditListRecipes:
                     self.can.delete(self.text2)
                     self.text2 = self.can.create_text(self.middle_w, self.middle_h + self.step,
                         text= self.list[self.index+2], width = 550, anchor='w')
-                    self.next_step.place(x=self.width*0.75, y=self.height*0.25,
-                            width = 100, height = 30, anchor = "n")
                 else:
                     # deleting rectangles that have no use
                     self.can.delete(self.rect2)
+                    self.text2 = 0
                     # forgetting button
                     self.next_step.place_forget()
                     self.delete2.place_forget()
@@ -1582,12 +1616,14 @@ class EditListRecipes:
                 # deleting rectangles that have no use
                 self.can.delete(self.rect1) ,self.can.delete(self.rect2)
                 self.delete1.place_forget() , self.delete2.place_forget()
+                self.text2, self.text1 = 0, 0
                 # forgetting button
                 self.next_step.place_forget()
         else:
             # deleting rectangles that have no use
             self.can.delete(self.rect0) ,self.can.delete(self.rect1) ,self.can.delete(self.rect2)
             self.delete0.place_forget() , self.delete1.place_forget() , self.delete2.place_forget()
+            self.text2, self.text1, self.text0 = 0, 0, 0
             # forgetting button
             self.next_step.place_forget()
 
@@ -1640,7 +1676,13 @@ class EditListRecipes:
         """
         del self.list[self.index]
         self.index-=3
+        # if text doesn't exist
+        if self.text1 != 0:
+            self.can.delete(self.text1)
+        if self.text2 != 0:
+            self.can.delete(self.text2)
         self.can.delete(self.text0)
+        # readjusting rectangle
         self.next_step_f()
 
     def delete_recipe1(self):
@@ -1648,7 +1690,7 @@ class EditListRecipes:
         """
         del self.list[self.index+1]
         self.index-=3
-        self.can.delete(self.text1)
+        self.can.delete(self.text1, self.text0)
         self.next_step_f()
 
     def delete_recipe2(self):
@@ -1656,7 +1698,7 @@ class EditListRecipes:
         """
         del self.list[self.index+2]
         self.index-=3
-        self.can.delete(self.text2)
+        self.can.delete(self.text2, self.text1, self.text0)
         self.next_step_f()
 
     def back_menu_f(self):
@@ -1664,7 +1706,7 @@ class EditListRecipes:
         """
         self.can.destroy()
         Schedule(self.root, self.width, self.height /
-                 0.8, self.lang.lang, self.list).review_f()
+                 0.8, self.lang.lang, self.list, self.list_of_steps).review_f()
 
 # ===================================
 
@@ -1718,7 +1760,9 @@ class EditListSteps:
         self.rect2 = self.can.create_rectangle(self.middle_w - self.step_w, self.middle_h + self.step - self.step_h,
                                   self.middle_w + self.step_w, self.middle_h + self.step + self.step_h, fill='orange', outline='white')
         # text 
-        if len(self.list_of_steps)>=1:
+        if self.list_of_steps==0:
+            return
+        elif len(self.list_of_steps)>=1:
             # First
             self.text0 = self.can.create_text(self.middle_w - self.width*0.3, self.middle_h - self.step,
                 text= self.list_of_steps[self.index], width = 550, anchor='w')
@@ -1737,7 +1781,8 @@ class EditListSteps:
                     self.delete2.place(x=self.width*0.75, y=self.height*0.75,
                             width = 50, height = 50, anchor = "w")
                     # place button
-                    self.next_step.place(x=self.width*0.91, y=self.height*0.75,
+                    if (len(self.list_of_steps) - self.index)>3:
+                        self.next_step.place(x=self.width*0.91, y=self.height*0.75,
                             width = 100, height = 30, anchor = "n")
                 else:
                     # deleting rectangles and texts that have no use
@@ -1759,7 +1804,8 @@ class EditListSteps:
         """ Function that will display the next step (the actual -> previous ; next -> actual)
         """
         # Moving to the next recipes
-        self.index+=3
+        if (len(self.list_of_steps) - self.index)>3:
+            self.index+=3
         # erasing text
         if (len(self.list_of_steps)==0):
             return self.back_menu_f()
@@ -1770,7 +1816,10 @@ class EditListSteps:
         # Moving to the next recipes
         self.can.delete(self.text0) ,self.can.delete(self.text1) ,self.can.delete(self.text2)
         # changing text
-        if (len(self.list_of_steps) - self.index)>=1:
+        if self.list_of_steps==0:
+            return
+        
+        elif (len(self.list_of_steps) - self.index)>=1:
             # First
             self.text0 = self.can.create_text(self.middle_w - self.width*0.3, self.middle_h - self.step,
                 text= self.list_of_steps[self.index], width = 550, anchor='w')
@@ -1782,26 +1831,24 @@ class EditListSteps:
                     # Third
                     self.text2 = self.can.create_text(self.middle_w - self.width*0.3, self.middle_h + self.step,
                         text= self.list_of_steps[self.index+2], width = 550, anchor='w')
-                    self.next_step.place(x=self.width*0.91, y=self.height*0.75,
+                    if (len(self.list_of_steps) - self.index)>3:
+                        self.next_step.place(x=self.width*0.91, y=self.height*0.75,
                             width = 100, height = 30, anchor = "n")
                 else:
                     # deleting rectangles that have no use
                     self.can.delete(self.rect2)
                     # forgetting button
-                    self.next_step.place_forget()
-                    self.delete2.place_forget()
+                    self.next_step.place_forget() , self.delete2.place_forget()
             else:
                 # deleting rectangles that have no use
                 self.can.delete(self.rect1) ,self.can.delete(self.rect2)
                 # forgetting button
-                self.next_step.place_forget()
-                self.delete1.place_forget() , self.delete2.place_forget()
+                self.next_step.place_forget() , self.delete1.place_forget() , self.delete2.place_forget()
         else:
             # deleting rectangles that have no use
             self.can.delete(self.rect0) ,self.can.delete(self.rect1) ,self.can.delete(self.rect2)
             # forgetting button
-            self.next_step.place_forget()
-            self.delete0.place_forget() , self.delete1.place_forget() , self.delete2.place_forget()
+            self.next_step.place_forget() , self.delete0.place_forget() , self.delete1.place_forget() , self.delete2.place_forget()
 
 
 
@@ -1835,7 +1882,8 @@ class EditListSteps:
         if self.index == 0:
             self.previous_step.place_forget()
         # placing buttons
-        self.next_step.place(x=self.width*0.91, y=self.height*0.75,
+        if (len(self.list_of_steps) - 3 - self.index):
+            self.next_step.place(x=self.width*0.91, y=self.height*0.75,
                             width = 100, height = 30, anchor = "n")
         self.delete0.place(x=self.width*0.75, y=self.height*0.25,
                             width = 50, height = 50, anchor = "w")
@@ -1848,6 +1896,8 @@ class EditListSteps:
         """ Deleting the recipe at placement 0
         """
         del self.list_of_steps[self.index]
+        if len(self.list_of_steps)==0:
+            self.list = []
         self.index-=3
         self.can.delete(self.text0)
         self.next_step_f()
@@ -1856,6 +1906,8 @@ class EditListSteps:
         """ Deleting the recipe at placement 1
         """
         del self.list_of_steps[self.index+1]
+        if len(self.list_of_steps)==0:
+            self.list = []
         self.index-=3
         self.can.delete(self.text1)
         self.next_step_f()
@@ -1864,6 +1916,8 @@ class EditListSteps:
         """ Deleting the recipe at placement 2
         """
         del self.list_of_steps[self.index+2]
+        if len(self.list_of_steps)==0:
+            self.list = []
         self.index-=3
         self.can.delete(self.text2)
         self.next_step_f()
@@ -1872,8 +1926,9 @@ class EditListSteps:
         """ Function that allow the user to get back to the mainmenu(schedule - review)
         """
         self.can.destroy()
+        print(self.list_of_steps)
         Schedule(self.root, self.width, self.height /
-                 0.8, self.lang.lang, self.list).review_f()
+                 0.8, self.lang.lang, self.list, self.list_of_steps).review_f()
 
 # ===================================
 
@@ -1901,7 +1956,7 @@ class Specification:
         """
         self.can.destroy()
         Schedule(self.root, self.width, self.height /
-                 0.8, self.lang.lang, self.list).review_f()
+                 0.8, self.lang.lang, self.list, self.list_of_steps).review_f()
 
 
 # ================================================================================================================================================
@@ -1924,6 +1979,6 @@ class MainFrame:
         # actualwidth = self.root.winfo_screenwidth()
         # actualheight = self.root.winfo_screenheight()
         # ================= Launching Main
-        MainMenu(self.root, self.width, self.height, self.lang.lang, self.list)
+        MainMenu(self.root, self.width, self.height, self.lang.lang, self.list, 0)
         # ================= Main Loop =================
         self.root.mainloop()
